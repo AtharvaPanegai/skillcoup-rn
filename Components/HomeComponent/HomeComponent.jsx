@@ -1,53 +1,18 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import Jobs from "../../Test/jobs.json";
+import React, { useEffect, useState } from "react";
 
-{
-}
+import Jobs from "../../Test/jobs.json";
+import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
 
 const HomeComponent = () => {
   // const jobTagsArray = Jobs.jobTags.tagTitle;
+  const [showFull, setShowFull] = useState(false);
 
   return (
     <ScrollView style={{}}>
       {Jobs.map((item) => {
         return (
-          <View key={item.id} style={styles.container}>
-            <View style={styles.subContainer}>
-              <Text style={styles.mainText}>{item.jobTitle}</Text>
-              <AntDesign
-                style={styles.icon}
-                name="like2"
-                size={24}
-                color="black"
-              />
-              <AntDesign
-                style={styles.icon}
-                name="dislike2"
-                size={24}
-                color="black"
-              />
-            </View>
-            <Text style={styles.bidText}>Fixed-price - posted 1h ago</Text>
-            <View style={styles.subContainer}>
-              <View>
-                <Text>${item.jobBudget}</Text>
-                <Text style={{ color: "grey" }}>Budget</Text>
-              </View>
-              <View style={{ marginLeft: 150 }}>
-                <Text>Intermediate </Text>
-                <Text style={{ color: "grey" }}>Experience level</Text>
-              </View>
-            </View>
-            <Text style={{ marginHorizontal: 10 }}>{item.jobDescription}</Text>
-            <View style={styles.subContainer}>
-              {/* {jobTagsArray.map((item)=>{
-
-           <Text style={styles.skillText}> {item.tagTitle} </Text>
-            })} */}
-            </View>
-          </View>
+          <HomeScreenJobComponent jobTitle = {item.jobTitle} jobDescription = {item.jobDescription} jobBudget = {item.jobBudget} id={item.id} />
         );
       })}
     </ScrollView>
@@ -89,4 +54,8 @@ const styles = StyleSheet.create({
     padding: 5,
     marginRight: 10,
   },
+  toggleText:{
+    color:"#3742fa",
+   
+  }
 });
