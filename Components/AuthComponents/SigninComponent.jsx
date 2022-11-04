@@ -47,16 +47,16 @@ const SigninComponent = ({navigation}) => {
             <Text style={{marginTop:20,fontSize:16}}>Join Skillcoup with your favourite social media account:</Text>
             <View style={styles.loginIcon}>
         <TouchableOpacity>
-        <Image style={styles.socialIcon}source={require('../assets/google.png')} />
+        <Image style={styles.socialIcon}source={require('../AuthComponents/google.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
-        <Image style={styles.socialIcon}source={require('../assets/linkedin.png')} />
+        <Image style={styles.socialIcon}source={require('../AuthComponents/apple.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
-        <Image style={styles.socialIcon}source={require('../assets/apple.png')} />
+        <Image style={styles.socialIcon}source={require('../AuthComponents/linkedin.png')} />
         </TouchableOpacity>
         <TouchableOpacity>
-        <Image style={styles.socialIcon}source={require('../assets/download.png')} />
+        <Image style={styles.socialIcon}source={require('../AuthComponents/download.png')} />
         </TouchableOpacity>  
       </View>
       
