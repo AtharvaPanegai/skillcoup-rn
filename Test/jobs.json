@@ -7,13 +7,13 @@
   
   "jobTags": [
     {
-      "tagTitle": "React Native"
+      "tag": "React Native"
     },
     {
-      "tagTitle": "JavaScript"
+      "tag": "JavaScript"
     },
     {
-      "tagTitle": "TypeScript"
+      "tag": "TypeScript"
     }
   ],
   "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",
@@ -27,13 +27,13 @@
     "jobBudget": 500,
     "jobTags": [
       {
-        "tagTitle": "ReactJS"
+        "tag": "ReactJS"
       },
       {
-        "tagTitle": "JavaScript"
+        "tag": "JavaScript"
       },
       {
-        "tagTitle": "TypeScript"
+        "tag": "TypeScript"
       }
     ],
     "jobDescription": "Lorem Ipsum is simply dummy text of the printing and csnkjnv dfjkdsfh khfshf hfiusfsi hfsfdi fhuf .",
@@ -48,13 +48,13 @@
     
     "jobTags": [
       {
-        "tagTitle": "React Native"
+        "tag": "React Native"
       },
       {
-        "tagTitle": "JavaScript"
+        "tag": "JavaScript"
       },
       {
-        "tagTitle": "TypeScript"
+        "tag": "TypeScript"
       }
     ],
     "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",
@@ -69,13 +69,13 @@
     
     "jobTags": [
       {
-        "tagTitle": "React Native"
+        "tag": "React Native"
       },
       {
-        "tagTitle": "JavaScript"
+        "tag": "JavaScript"
       },
       {
-        "tagTitle": "TypeScript"
+        "tag": "TypeScript"
       }
     ],
     "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",

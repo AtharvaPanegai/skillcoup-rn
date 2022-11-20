@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import SigninComponent from '../Components/AuthComponents/SigninComponent'
 
-const SigninScreen = () => {
+const SigninScreen = ({navigation}) => {
   return (
-    <View>
+   
       <SigninComponent />
-    </View>
+    
   )
 }
 
