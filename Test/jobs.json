@@ -1,0 +1,86 @@
+[{
+  "id":1,
+  "jobTitle": "App Development for Social Media App",
+  "jobType": "App Development",
+  "jobCategory": "Web/App Development",
+  "jobBudget": 100,
+  
+  "jobTags": [
+    {
+      "tag": "React Native"
+    },
+    {
+      "tag": "JavaScript"
+    },
+    {
+      "tag": "TypeScript"
+    }
+  ],
+  "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",
+  "jobFileUrl": "https://rootfor.xyz/atharva",
+  "Client": "Atharva"
+},
+{   "id":2,
+    "jobTitle": "Web Development for Social Media App",
+    "jobType": "Web Development",
+    "jobCategory": "Web/App Development",
+    "jobBudget": 500,
+    "jobTags": [
+      {
+        "tag": "ReactJS"
+      },
+      {
+        "tag": "JavaScript"
+      },
+      {
+        "tag": "TypeScript"
+      }
+    ],
+    "jobDescription": "Lorem Ipsum is simply dummy text of the printing and csnkjnv dfjkdsfh khfshf hfiusfsi hfsfdi fhuf .",
+    "jobFileUrl": "https://rootfor.xyz/atharva",
+    "Client": "Panegai"
+  },
+  { "id":3,
+    "jobTitle": "App Development for Social Media App",
+    "jobType": "App Development",
+    "jobCategory": "Web/App Development",
+    "jobBudget": 100,
+    
+    "jobTags": [
+      {
+        "tag": "React Native"
+      },
+      {
+        "tag": "JavaScript"
+      },
+      {
+        "tag": "TypeScript"
+      }
+    ],
+    "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",
+    "jobFileUrl": "https://rootfor.xyz/atharva",
+    "Client": "Atharva"
+  },
+  { "id":4,
+    "jobTitle": "App Development for Social Media App",
+    "jobType": "App Development",
+    "jobCategory": "Web/App Development",
+    "jobBudget": 100,
+    
+    "jobTags": [
+      {
+        "tag": "React Native"
+      },
+      {
+        "tag": "JavaScript"
+      },
+      {
+        "tag": "TypeScript"
+      }
+    ],
+    "jobDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem .",
+    "jobFileUrl": "https://rootfor.xyz/atharva",
+    "Client": "Atharva"
+  }
+  
+]
