@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View,Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient/build/LinearGradient'
-
+import Lottie from 'lottie-react-native';
 const SuccessComponent = () => {
   return (
     <View style={styles.container}>
@@ -10,7 +10,7 @@ const SuccessComponent = () => {
          colors={["#FFFFFF",
             "#D9D9D9",
             "#D6E6FF"]}/>
-        <Image  style={{ height:73,width:80,marginVertical:43,marginLeft:18}}source={require("../AuthComponents/clientlogo.png")}/>
+        <Lottie  style={{ height:73,width:80,marginVertical:20,marginLeft:18}}source={require("../../assets/application.json")} autoPlay loop={false}/>
        <View style={styles.textContainer}>
         <Text style={{fontSize:18,fontWeight:"500"}}>Congratulations!</Text>
         <Text style={{fontSize:14,color:"#818589",paddingTop:10 }}>Your Proposal has</Text>
@@ -53,11 +53,10 @@ const styles = StyleSheet.create({
         
     },
     linearGradientText:{
-        marginVertical: 62,
-        width: 350,
-        paddingVertical:13,
-        alignSelf: "center",
-        borderRadius: 30,
+      marginVertical: 40,
+      width: 300,
+      alignSelf: "center",
+      borderRadius: 22,
         
     }
 })

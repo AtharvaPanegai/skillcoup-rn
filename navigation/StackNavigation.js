@@ -8,19 +8,27 @@ import ClientScreen from '../Screens/ClientScreen';
 import ProjectScreen from '../Screens/ProjectScreen';
 import SuccessScreen from '../Screens/SuccessScreen';
 import ChatScreen from '../Screens/ChatScreen';
+import ProfileScreen from '../Screens/ProfileScreen';
+import ShowCaseScreen from '../Screens/ShowCaseScreen';
+import CreateProjectScreen from '../Screens/CreateProjectScreen';
+import SubmitProposalScreen from '../Screens/SubmitProposalScreen';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName=" ProjectDetails">
+    <Stack.Navigator initialRouteName="CreateProject">
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}} />
         <Stack.Screen name="Signin" component = {SigninScreen} options={{headerShown:false}} />
         <Stack.Screen name="Signup" component = {SignupScreen} options={{headerShown:false}} />
-        <Stack.Screen name="ClientProfile" component = {ClientScreen} options={{headerShown:false}} />
+        <Stack.Screen name="Profile" component = {ClientScreen} options={{headerShown:false}} />
         <Stack.Screen name="ProjectDetails" component = {ProjectScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Success" component = {SuccessScreen} options={{headerShown:false}}/>
         <Stack.Screen name="Chat" component = {ChatScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="UserProfile" component = {ProfileScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="ShowCase" component = {ShowCaseScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="CreateProject" component = {CreateProjectScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="SubmitProposal" component = {SubmitProposalScreen} options={{headerShown:false}}/>
     </Stack.Navigator>
   )
 }

@@ -8,60 +8,90 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Linking,
-  
+  TouchableOpacity
 } from "react-native";
 
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign, FontAwesome5,Feather } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5, Feather } from "@expo/vector-icons";
 import Jobs from "../../Test/jobs.json";
 import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
-const ClientComponent = () => {
+import { Entypo } from "@expo/vector-icons";
+
+
+const ClientComponent = ({ UserType="Freelancer"}) => {
   const [email, setEmail] = useState("");
-  const navigation=useNavigation();
+  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-       <LinearGradient colors={["#FFFFFF", "#D6E6FF"]} style={styles.background}/>
-        <View style={{flexDirection:'row' ,paddingVertical:30}}>
-        <Feather name="arrow-left" size={24} color="black" onPress={()=>{navigation.navigate("Home")}} />
-          <Text style={{fontSize:20,marginLeft:10}}>My Profile</Text>
-
-        </View>
-         <View style={styles.innerContainer}>
-          <Image  style ={styles.image}source={require("../AuthComponents/viit.png")}/>
-          <Text style={styles.userText}>Stanford Fores</Text>
-         </View>
+        <LinearGradient
+          colors={["#FFFFFF", "#769ede"]}
+          style={styles.background}
+        />
+        <View style={{ flexDirection: "row", paddingVertical: 30 }}>
+          <Feather
+            name="arrow-left"
+            size={24}
+            color="black"
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          />
+           <TouchableOpacity>
+           <View style={styles.log}>
+          <Entypo name="log-out" size={20} color="black" style={{alignSelf:"center",marginLeft:5}} />
+            <Text style={styles.logout}>Logout</Text>
+          </View>
+           </TouchableOpacity>
           
-           <View style={{paddingTop:20,flexDirection:'row'}}>
-               <AntDesign name="mail" size={24} color="grey"/>
-               <Text style={{paddingHorizontal:10,fontWeight:"bold",color:"black"}} onPress={()=>Linking.openURL('mailto:yash.21910487@viit.ac.in')}>yash.21910487@viit.ac.in</Text>
-           </View>
-           <View style={{paddingTop:20,flexDirection:'row'}}>
-           <AntDesign name="phone" size={24} color="grey" />
-               <Text style={{paddingHorizontal:10,fontWeight:"bold",color:"black"}} onPress={()=>Linking.openURL(`tel:876798529`)}>8975688287</Text>
-           </View>
-           <View style={{paddingTop:20,flexDirection:'row'}}>
-           <AntDesign name="linkedin-square" size={24} color="grey" />
-               <Text style={{paddingHorizontal:10,fontWeight:"bold",color:"black"}} onPress={()=>Linking.openURL("https://www.linkedin.com/in/yash-dikkar-b55329192/")}>yash-dikkar-b55329192</Text>
-           </View>
-              <Text style={styles.project}>Project Posted</Text>
-           
-           <ScrollView>
-           {Jobs.map((item) => {
-           return (
+        </View>
+        <View style={styles.innerContainer}>
+          <Image
+            style={styles.image}
+            source={require("../AuthComponents/viit.png")}
+          />
+          <Text style={styles.userText}>Stanford Fores</Text>
+           <Text style={{marginBottom:48}}>stanford_73Fores</Text> 
+        </View>
+        <TouchableOpacity>
+              <View style={styles.seperateContainer}>
+                {UserType=="Client" && (<Text style={styles.seperateText}>Total Project Posted</Text>)}
+                {UserType=="Freelancer" && (<Text style={styles.seperateText}>Total Proposals Submitted</Text>)}
+                <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
+               </View>
+           </TouchableOpacity>
+           <TouchableOpacity>
+              <View style={styles.seperateContainer}>
+                {UserType=="Client" && (<Text style={styles.seperateText}>Project Assigned</Text>)}
+                {UserType=="Freelancer" && (<Text style={styles.seperateText}>Accepted Propsals</Text>)}
+                <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
+               </View>
+           </TouchableOpacity>
+           <TouchableOpacity>
+              <View style={styles.seperateContainer}>
+                {UserType=="Client" && (<Text style={styles.seperateText}>Project Completed</Text>)}
+                {UserType=="Freelancer" && (<Text style={styles.seperateText}>Complete Projects</Text>)}
+                <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
+               </View>
+           </TouchableOpacity>
+           <TouchableOpacity>
+              <View style={styles.seperateContainer}>
+              <Text style={styles.seperateText}>Edit Profile</Text>
+                <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
+               </View>
+           </TouchableOpacity>
+           <TouchableOpacity>
+              <View style={styles.seperateContainer}>
+              <Text style={styles.seperateText}>Complete Profile</Text>
+                <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
+               </View>
+           </TouchableOpacity>          
          
-            <HomeScreenJobComponent jobTitle = {item.jobTitle} jobDescription = {item.jobDescription} jobBudget = {item.jobBudget} id={item.id} jobTags={item.jobTags}/>
-    
-             ) 
-              })}
-         </ScrollView>  
-       </View>
-       
+      </View>
     </TouchableWithoutFeedback>
-    
   );
 };
 
@@ -70,47 +100,70 @@ export default ClientComponent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:18
+    padding: 18,
   },
-   background:{
-     position:'absolute',
-     top:0,
-     left:0,
-     right:0,
-     height:900
-   },
- 
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 900,
+  },
+
   image: {
-    height: 95,
-    width: 95,
+    height: 140,
+    width: 140,
+    borderRadius: 70,
+   
+    borderWidth: 1,
+    marginBottom:10
+  },
+  innerContainer: {
+    
+    marginHorizontal: 30,
+    alignItems: "center",
+  },
+  userText: {
+    marginHorizontal: 50,
+    fontSize: 20,
+    fontWeight: "bold",
+   
+  },
+  project: {
+    borderRadius: 30,
+    marginTop: 20,
+    alignSelf: "center",
+    borderColor: "grey",
+    borderWidth: 1,
+    padding: 20,
+    backgroundColor: "white",
+    paddingHorizontal: 140,
+    elevation: 10,
+  },
+  
+  log: {
+    flexDirection:"row",
+    left: 260,
+    alignSelf: "center",
     borderRadius: 50,
-    borderColor:'grey',
-    borderWidth:1,
+    borderColor:"#D6E6FF",
+    borderWidth:2,
     
   },
-  innerContainer:{
-    flexDirection:'row',
-    marginHorizontal:30,
-    alignItems:'center'
+  logout: {
+    margin:5
   },
-  userText:{
-    marginHorizontal:50,
-    fontSize:20,
-    fontWeight:'bold'
+  seperateContainer:{
+    flexDirection:"row",
+    alignItems:"flex-start",
+    borderColor:"#D6E6FF",
+    borderWidth:2,
+    borderRadius:20,
+    marginBottom:25,
+    backgroundColor:"#D6E6FF"
   },
-  project:{
-    borderRadius:30,
-    marginTop:20,
-    alignSelf:'center',
-    borderColor:'grey',
-    borderWidth:1,
-    padding:20,
-   backgroundColor:'white',
-    paddingHorizontal:140,
-    elevation:10
-    
-    
+  seperateText:{
+    margin:20,
+    fontSize:16
   }
-  
-  
 });
