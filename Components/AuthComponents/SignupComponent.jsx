@@ -67,6 +67,7 @@ const SignupComponent = () => {
           <View>
             <Text style={styles.userText}>First Name</Text>
             <TextInput
+              
               style={styles.entryBox}
               placeholder="sania "
               type="firstName"
@@ -161,25 +162,18 @@ const SignupComponent = () => {
             I agree with the Terms & Conditions
           </Text>
         </View>
-        <TouchableOpacity style = {styles.buttonContainer} onPress = {registerFn} >
-          {/* <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#428DFB", "#073270"]}
-            style={styles.linearGradientbutton}
-          > */}
-            <Text
-              style={{
-                color: "#fff",
-                alignSelf: "center",
-                paddingHorizontal: 90,
-                paddingVertical: 10,
-              }}
-            >
-              Sign Up
-            </Text>
-          {/* </LinearGradient> */}
-        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={registerFn}>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={["#428DFB", "#073270"]}
+              style={styles.linearGradientText}>
+              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+                sign up
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         <View style={{ flexDirection: "row", alignSelf: "center" }}>
           <Text style={{ color: "#072756", fontSize: 16, fontWeight: "bold" }}>
             Already member?
@@ -286,6 +280,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     alignSelf: "center",
     paddingHorizontal: 10,
+  },
+  linearGradientText: {
+    marginVertical: 20,
+    width: 300,
+    alignSelf: "center",
+    borderRadius: 22,
   },
   linearGradientbutton: {
     padding: 10,

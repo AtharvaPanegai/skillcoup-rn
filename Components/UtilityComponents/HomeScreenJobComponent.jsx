@@ -7,13 +7,13 @@ const HomeScreenJobComponent = ({
   jobTitle,
   jobBudget,
   jobDescription,
-  id,
+  key,
   jobTags,
 }) => {
   const [showFull, setShowFull] = useState(false);
 
   return (
-    <View key={id} style={styles.container}>
+    <View key={key} style={styles.container}>
       <View style={styles.subContainer}>
         <Text style={styles.mainText}>{jobTitle}</Text>
         

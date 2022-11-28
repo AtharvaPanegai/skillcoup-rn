@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -23,7 +25,7 @@ import {
   Zocial,
 } from "@expo/vector-icons";
 import Skills from "../../Test/skills.json";
-import { Dropdown } from 'react-native-element-dropdown'
+import { Dropdown } from "react-native-element-dropdown";
 const UserProfileComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -31,20 +33,16 @@ const UserProfileComponent = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [about, setAbout] = useState("");
-  const [tag,setTag]=useState("");
-  const [emp,setEmp]=useState("");
+  const [tag, setTag] = useState("");
+  const [emp, setEmp] = useState("");
 
   const data = [
-    { label: '0-10', value: '1' },
-    { label: '10-50', value: '2' },
-    { label: '50-100', value: '3' },
-    { label: '100-500', value: '4' },
-    { label: '500+', value: '5' }
-  ]
-
-
-
-
+    { label: "0-10", value: "1" },
+    { label: "10-50", value: "2" },
+    { label: "50-100", value: "3" },
+    { label: "100-500", value: "4" },
+    { label: "500+", value: "5" },
+  ];
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -73,33 +71,35 @@ const UserProfileComponent = () => {
                 top: 190,
                 elevation: 5,
               }}
-              name="camera"
+              name='camera'
               size={24}
-              color="black"
+              color='black'
             />
           </View>
           <View style={{ marginTop: 40, marginLeft: 20, flexDirection: "row" }}>
             <SimpleLineIcons
-              name="user"
+              name='user'
               size={24}
               style={{ marginRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
             <View>
-              <Text style={{ color: "#3c3f45", fontSize: 12 }}>First name:</Text>
+              <Text style={{ color: "#3c3f45", fontSize: 12 }}>
+                First name:
+              </Text>
               <TouchableOpacity>
                 <TextInput
                   style={{ width: 120 }}
                   placeholder={firstName}
-                  type="firstName"
+                  type='firstName'
                   value={firstName}
                   onChangeText={(text) => setFirstName(text)}
                 />
                 <FontAwesome
-                  name="pencil"
+                  name='pencil'
                   style={{ position: "absolute", left: 90, elevation: -10 }}
                   size={18}
-                  color="black"
+                  color='black'
                 />
               </TouchableOpacity>
             </View>
@@ -109,15 +109,15 @@ const UserProfileComponent = () => {
                 <TextInput
                   style={{ width: 120 }}
                   placeholder={lastName}
-                  type="lastName"
+                  type='lastName'
                   value={lastName}
                   onChangeText={(text) => setLastName(text)}
                 />
                 <FontAwesome
-                  name="pencil"
+                  name='pencil'
                   style={{ position: "absolute", left: 90, top: 4 }}
                   size={18}
-                  color="black"
+                  color='black'
                 />
               </TouchableOpacity>
             </View>
@@ -125,91 +125,89 @@ const UserProfileComponent = () => {
           <Text style={styles.userInput}>UserName:</Text>
           <View style={{ flexDirection: "row", marginLeft: 20 }}>
             <SimpleLineIcons
-              name="user"
+              name='user'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
 
             <TouchableOpacity>
               <TextInput
                 style={{ width: 360 }}
                 placeholder={username}
-                type="lastName"
+                type='lastName'
                 value={username}
                 onChangeText={(text) => setUserName(text)}
               />
               <FontAwesome
-                name="pencil"
+                name='pencil'
                 style={{ position: "absolute", left: 278, elevation: -10 }}
                 size={18}
-                color="black"
+                color='black'
               />
             </TouchableOpacity>
           </View>
           <Text style={styles.userInput}>Phone Number:</Text>
           <View style={{ flexDirection: "row", marginLeft: 20 }}>
             <MaterialIcons
-              name="phone-iphone"
+              name='phone-iphone'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
 
             <TouchableOpacity>
               <TextInput
                 style={{ width: 360, paddingTop: 3 }}
                 placeholder={phoneNumber}
-                type="phonenumber"
+                type='phonenumber'
                 value={phoneNumber}
                 onChangeText={(text) => setPhoneNumber(text)}
               />
               <FontAwesome
-                name="pencil"
+                name='pencil'
                 style={{ position: "absolute", left: 278, elevation: -10 }}
                 size={18}
-                color="black"
+                color='black'
               />
             </TouchableOpacity>
           </View>
           <Text style={styles.userInput}>Email id:</Text>
           <View
             style={{ flexDirection: "row", marginLeft: 20 }}
-            behavior="padding"
-          >
+            behavior='padding'>
             <Fontisto
-              name="email"
+              name='email'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
 
             <TouchableOpacity>
               <TextInput
                 style={{ width: 360, paddingTop: 3 }}
                 placeholder={email}
-                type="email"
+                type='email'
                 value={email}
                 onChangeText={(text) => setEmail(text)}
               />
               <FontAwesome
-                name="pencil"
+                name='pencil'
                 style={{ position: "absolute", left: 278, elevation: -10 }}
                 size={18}
-                color="black"
+                color='black'
               />
             </TouchableOpacity>
           </View>
           <Text style={styles.userInput}>About:</Text>
           <View
             style={{ flexDirection: "row", marginLeft: 20 }}
-            behavior="padding"
-          >
+            behavior='padding'>
             <AntDesign
-              name="idcard"
+              name='idcard'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
 
             <TouchableOpacity>
@@ -217,28 +215,27 @@ const UserProfileComponent = () => {
                 multiline
                 style={{ width: 250, paddingTop: 3 }}
                 placeholder={about}
-                type="email"
+                type='email'
                 value={about}
                 onChangeText={(text) => setAbout(text)}
               />
               <FontAwesome
-                name="pencil"
+                name='pencil'
                 style={{ position: "absolute", left: 278, elevation: -10 }}
                 size={18}
-                color="black"
+                color='black'
               />
             </TouchableOpacity>
           </View>
           <Text style={styles.userInput}>Tag Line:</Text>
           <View
             style={{ flexDirection: "row", marginLeft: 20 }}
-            behavior="padding"
-          >
+            behavior='padding'>
             <AntDesign
-              name="tago"
+              name='tago'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
 
             <TouchableOpacity>
@@ -246,15 +243,15 @@ const UserProfileComponent = () => {
                 multiline
                 style={{ width: 250, paddingTop: 3 }}
                 placeholder={tag}
-                type="email"
+                type='email'
                 value={tag}
                 onChangeText={(text) => setTag(text)}
               />
               <FontAwesome
-                name="pencil"
+                name='pencil'
                 style={{ position: "absolute", left: 278, elevation: -10 }}
                 size={18}
-                color="black"
+                color='black'
               />
             </TouchableOpacity>
           </View>
@@ -266,8 +263,7 @@ const UserProfileComponent = () => {
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 0 }}
                   colors={["#428DFB", "#073270"]}
-                  style={styles.linearGradientbutton}
-                >
+                  style={styles.linearGradientbutton}>
                   <Text style={{ color: "white" }} key={item.tag}>
                     {item.tag}
                   </Text>
@@ -278,42 +274,36 @@ const UserProfileComponent = () => {
           <Text style={styles.userInput}>Number Of Employees:</Text>
           <View
             style={{ flexDirection: "row", marginLeft: 20 }}
-            behavior="padding"
-          >
+            behavior='padding'>
             <Ionicons
-              name="people"
+              name='people'
               size={24}
               style={{ paddingRight: 10, top: 7 }}
-              color="black"
+              color='black'
             />
-                 <Dropdown
-                 style={styles.Dropdown}
-                 data={data}
-                 value={emp}
-                 labelField="label"
-                 iconStyle={styles.iconStyle}
-                 onChange={item => {
-                  setEmp(item.label);
-                  
-                }}
-                placeholder={emp}
-                 />
-            
-              
-            
+            <Dropdown
+              style={styles.Dropdown}
+              data={data}
+              value={emp}
+              labelField='label'
+              iconStyle={styles.iconStyle}
+              onChange={(item) => {
+                setEmp(item.label);
+              }}
+              placeholder={emp}
+            />
           </View>
-          <TouchableOpacity onPress={()=>{}}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={["#428DFB", "#073270"]}
-          style={styles.linearGradientText}
-        >
-          <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-             Save
-          </Text>
-        </LinearGradient>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={["#428DFB", "#073270"]}
+              style={styles.linearGradientText}>
+              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+                Save
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </TouchableWithoutFeedback>
@@ -346,15 +336,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 10,
   },
-  linearGradientText:{
+  linearGradientText: {
     marginVertical: 20,
     width: 300,
     alignSelf: "center",
-    borderRadius: 22, 
+    borderRadius: 22,
   },
-  Dropdown:{
-    
-    width:300
+  Dropdown: {
+    width: 300,
   },
-  
 });
