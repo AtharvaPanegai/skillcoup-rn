@@ -17,26 +17,49 @@ import Skills from "../../Test/skills.json";
 import axios from "axios";
 import { BASE_URL } from "../config";
 
-const ProjectComponent = () => {
+const ProjectDetailsComponent = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const { jobTitle, jobDescription, jobBudget, jobId, jobTags } = route.params;
+  const [username, setUsername] = useState("");
 
-  const objToGetDetail = {
-    jobId: jobId,
+  const { jobTitle, jobDescription, jobBudget, jobId, jobTags, ClientId } =
+    route.params;
+  const clientdata = {
+    userIdInput: ClientId,
   };
-  const fetchProjectDetails = () => {
+
+  const fetchClientofProject = () => {
     axios
-      .post(`${BASE_URL}/freelancer/getJobDetailById`, objToGetDetail)
+      .post(`${BASE_URL}/getUserDetails`, {
+        userIdInput: ClientId,
+      })
       .then((res) => {
         console.log(res.data);
+        setUsername(res.data.user.username);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    fetchClientofProject();
+  }, []);
+  // const objToGetDetail = {
+  //   jobId: jobId,
+  // };
+  // const fetchProjectDetails = () => {
+  //   axios
+  //     .post(`${BASE_URL}/freelancer/getJobDetailById`, objToGetDetail)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  // useEffect(() => {}, []);
 
   return (
     <ScrollView>
@@ -52,7 +75,7 @@ const ProjectComponent = () => {
             size={24}
             color='black'
             onPress={() => {
-              navigation.navigate("ClientProfile");
+              navigation.goBack();
             }}
           />
           <Text style={{ fontSize: 20, marginLeft: 10 }}>Project Details</Text>
@@ -67,10 +90,11 @@ const ProjectComponent = () => {
           <Text style={styles.headerText}>{jobTitle}</Text>
 
           <View style={{ flexDirection: "row-reverse", paddingLeft: 20 }}>
-            <Image
+            {/* <Image
               style={{ height: 30, width: 30, borderRadius: 50 }}
               source={require("../AuthComponents/clientlogo.png")}
-            />
+            /> */}
+            <Text>{username}</Text>
             <Text
               style={{
                 color: "#818589",
@@ -99,7 +123,7 @@ const ProjectComponent = () => {
             Skills Required
           </Text>
           <ScrollView horizontal={true} style={{ marginHorizontal: 32 }}>
-            {Skills.map((item) => {
+            {jobTags.map((item) => {
               return (
                 <LinearGradient
                   start={{ x: 0, y: 0 }}
@@ -107,7 +131,7 @@ const ProjectComponent = () => {
                   colors={["#428DFB", "#073270"]}
                   style={styles.linearGradientbutton}>
                   <Text style={{ color: "#fff" }} key={item.tag}>
-                    {item.tag}
+                    {item.tagTitle}
                   </Text>
                 </LinearGradient>
               );
@@ -144,7 +168,7 @@ const ProjectComponent = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Success");
+              navigation.navigate("SubmitProposal");
             }}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
@@ -162,7 +186,7 @@ const ProjectComponent = () => {
   );
 };
 
-export default ProjectComponent;
+export default ProjectDetailsComponent;
 
 const styles = StyleSheet.create({
   container: {
@@ -190,7 +214,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   linearGradientText: {
-    marginVertical: 20,
+    marginVertical: 13,
     width: 300,
     alignSelf: "center",
     borderRadius: 22,

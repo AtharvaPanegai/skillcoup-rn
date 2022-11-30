@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -7,21 +7,23 @@ const HomeScreenJobComponent = ({
   jobTitle,
   jobBudget,
   jobDescription,
-  key,
+  jobId,
   jobTags,
 }) => {
   const [showFull, setShowFull] = useState(false);
 
+  useEffect(()=>{
+    console.log(jobId);
+  },[])
+
   return (
-    <View key={key} style={styles.container}>
+    <View key={jobId} style={styles.container}>
       <View style={styles.subContainer}>
         <Text style={styles.mainText}>{jobTitle}</Text>
-        
       </View>
-      <Text style={styles.bidText}>Fixed-price - posted 1h ago</Text>
       <View style={styles.subContainer}>
         <View>
-          <Text>${jobBudget}</Text>
+          <Text>₹ {jobBudget}</Text>
           <Text style={{ color: "grey" }}>Budget</Text>
         </View>
         <View style={{ marginLeft: 150 }}>
@@ -43,7 +45,7 @@ const HomeScreenJobComponent = ({
           style={styles.linearGradientbutton}
         >
           <Text style={{color:'#fff'}} key={item.tag}>
-              {item.tag}
+              {item.tagTitle}
             </Text>
         </LinearGradient>
             
