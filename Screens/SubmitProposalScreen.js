@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import SubmitProposalComponent from '../Components/ProjectComponent/SubmitProposalComponent'
+import SubmitProposalComponent from '../Components/ProposalComponents/SubmitProposalComponent'
 
 const SubmitProposalScreen = () => {
   return (
