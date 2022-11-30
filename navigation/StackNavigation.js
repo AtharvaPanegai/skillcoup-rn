@@ -11,13 +11,15 @@ import ProfileScreen from '../Screens/ProfileScreen';
 import ShowCaseScreen from '../Screens/ShowCaseScreen';
 import CreateProjectScreen from '../Screens/CreateProjectScreen';
 import SubmitProposalScreen from '../Screens/SubmitProposalScreen';
+import ProjectProposalScreen from '../Screens/ProjectProposalScreen';
+import ProposalDetails from '../Screens/ProposalDetails';
 import ProjectDetailsScreen from '../Screens/ProjectDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigation = () => {
   return (
-    <Stack.Navigator initialRouteName="Signin">
+    <Stack.Navigator initialRouteName="ProjectProposal">
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}} />
         <Stack.Screen name="Signin" component = {SigninScreen} options={{headerShown:false}} />
         <Stack.Screen name="Signup" component = {SignupScreen} options={{headerShown:false}} />
@@ -29,6 +31,8 @@ const StackNavigation = () => {
         <Stack.Screen name="ShowCase" component = {ShowCaseScreen} options={{headerShown:false}}/>
         <Stack.Screen name="CreateProject" component = {CreateProjectScreen} options={{headerShown:false}}/>
         <Stack.Screen name="SubmitProposal" component = {SubmitProposalScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="ProjectProposal" component = {ProjectProposalScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="ProposalDetails" component = {ProposalDetails} options={{headerShown:false}}/>
     </Stack.Navigator>
   )
 }
