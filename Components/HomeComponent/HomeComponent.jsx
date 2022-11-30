@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { JobService } from "../../service/JobService";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import Lottie from "lottie-react-native";
 
 const HomeComponent = () => {
   // const jobTagsArray = Jobs.jobTags.tagTitle;
@@ -42,7 +43,7 @@ const HomeComponent = () => {
 
   return (
     <ScrollView style={{}}>
-      {!isZeroJobs && (<View>
+      {!isZeroJobs && (<View style={{marginTop:30}}>
         {Jobs.map((item) => {
           return (
             <TouchableOpacity
@@ -68,9 +69,15 @@ const HomeComponent = () => {
         })}
       </View>)}
       {isZeroJobs && (
-        <View>
-          <Text>No Jobs Available</Text>
-        </View>
+          <View>
+           <Lottie
+          style={styles.animation}
+          source={require("../../assets/empty.json")}
+          autoPlay
+          loop
+        />
+          <Text style={{alignSelf:"center",fontSize:20,color:"grey"}}>No Projects Available</Text>
+          </View>
       )}
     </ScrollView>
   );
@@ -114,4 +121,13 @@ const styles = StyleSheet.create({
   toggleText: {
     color: "#3742fa",
   },
+  animation:{
+    
+    marginVertical:160,
+    alignSelf: 'center',
+    height:200,
+    width:200,
+    alignContent:"center"
+  }
+
 });

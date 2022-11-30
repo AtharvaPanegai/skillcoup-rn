@@ -33,7 +33,7 @@ const SigninComponent = () => {
     const handleSignin = ()=>{
       axios.post(`${BASE_URL}/signin`,userData).then((res)=>{
         console.log(res.data.user);
-        navigation.replace("Home")
+        navigation.replace("Main")
 
       }).catch((err)=>{
         console.log(err);

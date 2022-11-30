@@ -19,11 +19,25 @@ import { AntDesign, FontAwesome5, Feather } from "@expo/vector-icons";
 import Jobs from "../../Test/jobs.json";
 import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
 import { Entypo } from "@expo/vector-icons";
+import axios from "axios";
+import { BASE_URL } from "../config";
 
-
-const ClientComponent = ({ UserType="Freelancer"}) => {
-  const [email, setEmail] = useState("");
+const ClientComponent = ({ UserType="Client"}) => {
+  
   const navigation = useNavigation();
+  
+  const handleSignout = ()=>{
+    axios.get(`${BASE_URL}/logout`).then((res)=>{
+      
+      navigation.replace("signin")
+
+    }).catch((err)=>{
+      console.log(err);
+      alert("Invalid Credentials!")
+    })
+  }
+
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -40,7 +54,7 @@ const ClientComponent = ({ UserType="Freelancer"}) => {
               navigation.navigate("Home");
             }}
           />
-           <TouchableOpacity>
+           <TouchableOpacity onPress={handleSignout}>
            <View style={styles.log}>
           <Entypo name="log-out" size={20} color="black" style={{alignSelf:"center",marginLeft:5}} />
             <Text style={styles.logout}>Logout</Text>
@@ -56,14 +70,14 @@ const ClientComponent = ({ UserType="Freelancer"}) => {
           <Text style={styles.userText}>Stanford Fores</Text>
            <Text style={{marginBottom:48}}>stanford_73Fores</Text> 
         </View>
-        <TouchableOpacity>
+       <TouchableOpacity >
               <View style={styles.seperateContainer}>
                 {UserType=="Client" && (<Text style={styles.seperateText}>Total Project Posted</Text>)}
                 {UserType=="Freelancer" && (<Text style={styles.seperateText}>Total Proposals Submitted</Text>)}
                 <AntDesign name="arrowright" size={20} style={{alignSelf:"center",right:10,position:"absolute"}} color="black" />
                </View>
            </TouchableOpacity>
-           <TouchableOpacity>
+           <TouchableOpacity >
               <View style={styles.seperateContainer}>
                 {UserType=="Client" && (<Text style={styles.seperateText}>Project Assigned</Text>)}
                 {UserType=="Freelancer" && (<Text style={styles.seperateText}>Accepted Propsals</Text>)}
