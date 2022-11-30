@@ -51,14 +51,16 @@ const HomeComponent = () => {
                   jobTitle: item.jobTitle,
                   jobDescription: item.jobDescription,
                   jobBudget: item.jobBudget,
-                  jobId: item.id,
+                  jobId: item._id,
+                  jobTags:item.jobTags,
+                  ClientId : item.Client
                 });
               }}>
               <HomeScreenJobComponent
                 jobTitle={item.jobTitle}
                 jobDescription={item.jobDescription}
                 jobBudget={item.jobBudget}
-                key={item.id}
+                jobId={item._id}
                 jobTags={item.jobTags}
               />
             </TouchableOpacity>

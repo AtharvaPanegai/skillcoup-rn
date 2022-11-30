@@ -60,7 +60,7 @@ const SubmitProposalComponent = () => {
         style={styles.background}
       />
       <View style={{ marginTop: 70, paddingHorizontal: 35 }}>
-        <Text style={styles.header}>Submit Your Proposal !!</Text>
+        <Text style={styles.header}>Submit Your Proposal</Text>
         <Text style={styles.iptext}>Time Required:</Text>
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.iptext1}>Days:</Text>
@@ -161,7 +161,9 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   Dropdown: {
-    borderRadius: 12,
+    alignContent : "center",
+    marginLeft : 5,
+    borderRadius: 8,
     width: 80,
     backgroundColor: "#D9D9D9",
   },
@@ -182,7 +184,8 @@ const styles = StyleSheet.create({
     paddingLeft:8
   },
   linearGradientText:{
-    marginTop: 240,
+    justifyContent : "flex-end",
+    marginTop : 150,
     width: 300,
     alignSelf: "center",
     borderRadius: 22, 
