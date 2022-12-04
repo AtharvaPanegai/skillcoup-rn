@@ -168,7 +168,7 @@ const ProjectDetailsComponent = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("SubmitProposal");
+              navigation.navigate("SubmitProposal",{jobId:jobId});
             }}>
             <LinearGradient
               start={{ x: 0, y: 0 }}

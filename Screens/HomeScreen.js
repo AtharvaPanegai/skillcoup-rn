@@ -2,10 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import HomeComponent from '../Components/HomeComponent/HomeComponent'
 import { LinearGradient } from 'expo-linear-gradient'
-import TabNavigation from '../navigation/Bottom'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import CreateProjectScreen from './CreateProjectScreen'
-import ProfileScreen from './ProfileScreen'
 const Tab=createBottomTabNavigator();
 const HomeScreen = () => {
   return (

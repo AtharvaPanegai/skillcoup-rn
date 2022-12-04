@@ -1,4 +1,13 @@
-import { StyleSheet, Text, View, TextInput, Image, Pressable } from "react-native";
+/** @format */
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  Pressable,
+} from "react-native";
 import React, { useContext, useState } from "react";
 import { Button, Icon, Input, SocialIcon } from "@rneui/base";
 import { TouchableOpacity } from "react-native";
@@ -6,7 +15,7 @@ import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "./AuthContext";
 import Spinner from "react-native-loading-spinner-overlay/lib";
-import { Feather} from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import { useTogglePasswordVisibility } from "../../assets/useTogglePasswordVisibility";
 import axios from "axios";
 import { BASE_URL } from "../config";
@@ -16,34 +25,38 @@ const SigninComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [inputType, setInputType] = useState("password");
-  const { passwordVisibility, rightIcon, handlePasswordVisibility } =useTogglePasswordVisibility();
-  const {isLoading,login}=useContext(AuthContext);
-  const navigation=useNavigation();
-  
-  
-    const userData = {
-      email:email,
-      password:password
-    }
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    useTogglePasswordVisibility();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
 
-    const showPassword = ()=>{
-      setInputType("text");
-    }
+  const userData = {
+    email: email,
+    password: password,
+  };
 
-    const handleSignin = ()=>{
-      axios.post(`${BASE_URL}/signin`,userData).then((res)=>{
+  const showPassword = () => {
+    setInputType("text");
+  };
+
+  const handleSignin = () => {
+    axios
+      .post(`${BASE_URL}/signin`, userData)
+      .then((res) => {
+        setIsLoading(true);
         console.log(res.data.user);
-        navigation.replace("Main")
-
-      }).catch((err)=>{
-        console.log(err);
-        alert("Invalid Credentials!")
+        navigation.replace("BottomTab", { screen: "Home" });
+        setIsLoading(false)
       })
-    }
- 
+      .catch((err) => {
+        console.log(err);
+        alert("Invalid Credentials!");
+      });
+  };
+
   return (
     <LinearGradient colors={["#FFFFFF", "#D6E6FF"]} style={styles.container}>
-       <Spinner visible={isLoading}/>
+      <Spinner visible={isLoading} />
       <Image
         style={styles.logo}
         source={require("../AuthComponents/logo.png")}
@@ -51,47 +64,44 @@ const SigninComponent = () => {
       <Text style={styles.text}>Welcome back!</Text>
       <Text style={styles.text1}>Lets start earning</Text>
       <View style={styles.loginContainer}>
-        <View >
-        <Text style={styles.loginText}>Email</Text>
-        <TextInput
-          style={styles.entryBox1}
-          placeholder=""
-          type="email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
+        <View>
+          <Text style={styles.loginText}>Email</Text>
+          <TextInput
+            style={styles.entryBox1}
+            placeholder=''
+            type='email'
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          />
         </View>
-        
-         <View>
-         <Text style={styles.loginText}>Password</Text>
-         <TextInput
-          style={styles.entryBox1}
-          placeholder=""
-          type={inputType}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          secureTextEntry={passwordVisibility}
-        ></TextInput>
-         </View>
-        
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={["#428DFB", "#073270"]}
-          style={styles.linearGradientbutton}
-        >
-          <Text
-            style={{
-              color: "#fff",
-              alignSelf: "center",
-              paddingHorizontal: 90,
-              paddingVertical: 10,
-            }}
-            onPress={handleSignin}
-          >
-            Sign in
-          </Text>
-        </LinearGradient>
+
+        <View>
+          <Text style={styles.loginText}>Password</Text>
+          <TextInput
+            style={styles.entryBox1}
+            placeholder=''
+            type={inputType}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={passwordVisibility}></TextInput>
+        </View>
+        <TouchableOpacity onPress={handleSignin}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#428DFB", "#073270"]}
+            style={styles.linearGradientbutton}>
+            <Text
+              style={{
+                color: "#fff",
+                alignSelf: "center",
+                paddingHorizontal: 90,
+                paddingVertical: 10,
+              }}>
+              Sign in
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
         <Text
           style={{
             alignSelf: "center",
@@ -99,8 +109,7 @@ const SigninComponent = () => {
             fontWeight: "800",
             fontSize: 17,
             marginTop: 40,
-          }}
-        >
+          }}>
           Forgot password?
         </Text>
       </View>
@@ -143,12 +152,11 @@ const SigninComponent = () => {
         <Text style={{ color: "#5E6368" }}>Don't have an account ?</Text>
         <Text
           style={{ fontWeight: "bold", color: "#072756" }}
-          onPress={() => navigation.navigate("Signup")}
-        >
+          onPress={() => navigation.navigate("Signup")}>
           Sign up
         </Text>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </LinearGradient>
   );
 };
@@ -183,17 +191,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: "center",
     width: 300,
-    marginVertical:10,
-   
+    marginVertical: 10,
   },
   loginText: {
     fontSize: 10,
     backgroundColor: "#E7F1FF",
     alignSelf: "flex-start",
     marginLeft: 10,
-    position:'absolute',
-    zIndex:5,
-    left:20
+    position: "absolute",
+    zIndex: 5,
+    left: 20,
   },
   loginIcon: {
     flexDirection: "row",
@@ -233,14 +240,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 5,
   },
-  inputContainer:{
+  inputContainer: {
     borderRadius: 6,
     borderColor: "#6B737A",
     padding: 10,
     borderWidth: 2,
     alignSelf: "center",
     width: 300,
-    marginVertical:10,
-    flexDirection:'row'
-  }
+    marginVertical: 10,
+    flexDirection: "row",
+  },
 });
