@@ -1,32 +1,21 @@
 /** @format */
 
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { AntDesign } from "@expo/vector-icons";
-// import Jobs from "../../Test/jobs.json";
-import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
-import { useNavigation } from "@react-navigation/native";
-import { JobService } from "../../service/JobService";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { useEffect } from "react";
 import Lottie from "lottie-react-native";
+import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
 
-const HomeComponent = () => {
-  // const jobTagsArray = Jobs.jobTags.tagTitle;
+const ProjectCompletedComponent = () => {
   const [isZeroJobs, setIsZeroJobs] = useState(false);
   const [Jobs, setJobs] = useState([]);
-  const [userType, setUserType] = useState("");
-  const getAllJobs = () => {
+  const getCompletedProjects = () => {
     axios
-      .get(`${BASE_URL}/freelancer/getAllJobs`)
+      .get(`${BASE_URL}/client/completedProjects`)
       .then((res) => {
-        console.log(res.data.jobs);
+        console.log(res.data);
         if (!res.data.jobs.length) {
           setIsZeroJobs(true);
           console.log(isZeroJobs);
@@ -38,40 +27,23 @@ const HomeComponent = () => {
       });
   };
 
-  
-
   useEffect(() => {
-    getAllJobs();
+    getCompletedProjects();
   }, []);
 
-  const navigation = useNavigation();
-
   return (
-    <ScrollView style={{}}>
+    <ScrollView style={{ marginBottom: 50 }}>
       {!isZeroJobs && (
         <View style={{ marginTop: 30 }}>
-          <Text>Jobs For you</Text>
           {Jobs.map((item) => {
             return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("ProjectDetails", {
-                    jobTitle: item.jobTitle,
-                    jobDescription: item.jobDescription,
-                    jobBudget: item.jobBudget,
-                    jobId: item._id,
-                    jobTags: item.jobTags,
-                    ClientId: item.Client,
-                  });
-                }}>
-                <HomeScreenJobComponent
-                  jobTitle={item.jobTitle}
-                  jobDescription={item.jobDescription}
-                  jobBudget={item.jobBudget}
-                  jobId={item._id}
-                  jobTags={item.jobTags}
-                />
-              </TouchableOpacity>
+              <HomeScreenJobComponent
+                jobTitle={item.jobTitle}
+                jobDescription={item.jobDescription}
+                jobBudget={item.jobBudget}
+                jobId={item._id}
+                jobTags={item.jobTags}
+              />
             );
           })}
         </View>
@@ -85,7 +57,7 @@ const HomeComponent = () => {
             loop
           />
           <Text style={{ alignSelf: "center", fontSize: 20, color: "grey" }}>
-            No Projects Available
+            No Projects Completed
           </Text>
         </View>
       )}
@@ -93,7 +65,7 @@ const HomeComponent = () => {
   );
 };
 
-export default HomeComponent;
+export default ProjectCompletedComponent;
 
 const styles = StyleSheet.create({
   container: {

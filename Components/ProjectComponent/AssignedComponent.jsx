@@ -4,38 +4,31 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Feather } from "@expo/vector-icons";
+import React from "react";
+import { useRoute } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import Skills from "../../Test/skills.json";
+import { Feather } from "@expo/vector-icons";
 import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 import { BASE_URL } from "../config";
 
-const ProjectDetailsComponent = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
+const AssignedComponent = () => {
+  const { jobTitle, jobDescription, jobBudget, jobId, jobTags, freelancer } =
+    useRoute().params;
 
-  const [username, setUsername] = useState("");
+    const [freelancerName, setFreelancerName] = useState("");
+    const [username, setUsername] = useState("");
 
-  const { jobTitle, jobDescription, jobBudget, jobId, jobTags, ClientId } =
-    route.params;
-  const clientdata = {
-    userIdInput: ClientId,
-  };
-
-  const fetchClientofProject = () => {
+  const getFreelancerDetails = () => {
     axios
-      .post(`${BASE_URL}/getUserDetails`, {
-        userIdInput: ClientId,
-      })
+      .post(`${BASE_URL}/getUserDetails`, { userIdInput: freelancer })
       .then((res) => {
         console.log(res.data);
+        setFreelancerName(`${res.data.user.firstName} ${res.data.user.lastName}`);
         setUsername(res.data.user.username);
       })
       .catch((err) => {
@@ -43,44 +36,14 @@ const ProjectDetailsComponent = () => {
       });
   };
 
+
   useEffect(() => {
-    fetchClientofProject();
+    getFreelancerDetails();
   }, []);
-  // const objToGetDetail = {
-  //   jobId: jobId,
-  // };
-  // const fetchProjectDetails = () => {
-  //   axios
-  //     .post(`${BASE_URL}/freelancer/getJobDetailById`, objToGetDetail)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-  // useEffect(() => {}, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View
-          style={{
-            position: "relative",
-            flexDirection: "row",
-            paddingHorizontal: 20,
-          }}>
-          <Feather
-            name='arrow-left'
-            size={24}
-            color='black'
-            onPress={() => {
-              navigation.goBack();
-            }}
-          />
-          <Text style={{ fontSize: 20, marginLeft: 10 }}>Project Details</Text>
-        </View>
-
+    
+      <View key={jobId} style={styles.container}>
         <View style={{ marginTop: 60, borderRadius: 30 }}>
           <LinearGradient
             colors={["#D6E6FF", "#F8FBFF", "#D6E6FF"]}
@@ -91,9 +54,9 @@ const ProjectDetailsComponent = () => {
 
           <View style={{ flexDirection: "row-reverse", paddingLeft: 20 }}>
             {/* <Image
-              style={{ height: 30, width: 30, borderRadius: 50 }}
-              source={require("../AuthComponents/clientlogo.png")}
-            /> */}
+            style={{ height: 30, width: 30, borderRadius: 50 }}
+            source={require("../AuthComponents/clientlogo.png")}
+          /> */}
             <Text>{username}</Text>
             <Text
               style={{
@@ -130,7 +93,7 @@ const ProjectDetailsComponent = () => {
                   end={{ x: 1, y: 0 }}
                   colors={["#428DFB", "#073270"]}
                   style={styles.linearGradientbutton}>
-                  <Text style={{ color: "#fff" }} key={item.tag}>
+                  <Text style={{ color: "#fff" }} key={item._id}>
                     {item.tagTitle}
                   </Text>
                 </LinearGradient>
@@ -152,45 +115,45 @@ const ProjectDetailsComponent = () => {
               <Text style={{ color: "#818589" }}>3 months</Text>
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("Chat");
-            }}>
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={["#428DFB", "#073270"]}
-              style={styles.linearGradientText}>
-              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-                Message Client
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("SubmitProposal",{jobId:jobId});
-            }}>
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={["#428DFB", "#073270"]}
-              style={styles.linearGradientText}>
-              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-                Submit Proposal
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
         </View>
+        <Text style={{marginHorizontal:30,marginTop:20,fontSize:20,fontWeight:"bold"}}>Assigned To:</Text>
+        <View  style={styles.proposalcontainer}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    paddingTop: 10,
+                    paddingLeft: 10,
+                    fontWeight: "bold",
+                  }}>
+                  Freelancer@{freelancerName}
+                </Text>
+                <Text style={{ paddingLeft: 10, color: "grey", paddingTop: 2 }}>
+                  Duration : 3 months 3 days
+                </Text>
+
+                <Text style={{ paddingLeft: 10, paddingTop: 2, color: "grey" }}>
+                  Expertise: 
+                </Text>
+                <Text
+                  style={{
+                    paddingLeft: 10,
+                    paddingTop: 2,
+                    fontWeight: "bold",
+                    paddingBottom: 10,
+                  }}>
+                  Quotation:
+                </Text>
+              </View>
       </View>
-    </ScrollView>
+    
   );
 };
 
-export default ProjectDetailsComponent;
+export default AssignedComponent;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 30,
+    paddingTop: 30,
     flex: 1,
   },
   background: {
@@ -218,5 +181,11 @@ const styles = StyleSheet.create({
     width: 300,
     alignSelf: "center",
     borderRadius: 22,
+  },
+  proposalcontainer: {
+    marginHorizontal: 32,
+    marginVertical: 13,
+    borderRadius: 10,
+    backgroundColor: "#D9D9D9",
   },
 });

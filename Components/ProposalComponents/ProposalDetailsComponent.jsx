@@ -1,21 +1,79 @@
-import { StyleSheet, Text, View, Image,ScrollView,TouchableOpacity } from "react-native";
-import React from "react";
+/** @format */
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  ToastAndroid
+} from "react-native";
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { FontAwesome,MaterialIcons,Entypo,FontAwesome5} from "@expo/vector-icons";
-import Skills from "../../Test/skills.json"
-const ProposalDetailsComponent = ({
-  id,
-  month,
-  day,
-  username,
-  expertise,
-  budget,
-}) => {
+import {
+  FontAwesome,
+  MaterialIcons,
+  Entypo,
+  FontAwesome5,
+} from "@expo/vector-icons";
+import Skills from "../../Test/skills.json";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import axios from "axios";
+import { BASE_URL } from "../config";
+
+const ProposalDetailsComponent = () => {
+  const navigation = useNavigation();
   const [showFull, setShowFull] = useState(false);
+  const { jobId, month, day, freelancerId, expertise, budget,showButtons } =
+    useRoute().params;
+  const [freelancerName, setFreelancerName] = useState("");
+  const [freelancerSkills, setFreelancerSkills] = useState([]);
+
+  const getUserById = () => {
+    axios
+      .post(`${BASE_URL}/getUserDetails`, { userIdInput: freelancerId })
+      .then((res) => {
+        console.log(res.data);
+        setFreelancerName(
+          `${res.data.user.firstName}  ${res.data.user.lastName}`
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const assignProjData = {
+    jobIdInput: jobId,
+    freelancerId: freelancerId,
+  };
+
+  const assignProjectToFreelancer = () => {
+    console.log("assign proj triggered")
+    axios
+      .post(`${BASE_URL}/client/assignJob`, assignProjData)
+      .then((res) => {
+        console.log(res.data);
+        ToastAndroid.showWithGravity(
+          "Project Assigned!",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+        navigation.navigate("Home");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getUserById();
+  }, []);
 
   return (
-    <View key={id} style={styles.container}>
+    <View key={jobId} style={styles.container}>
       <LinearGradient
         colors={["#FFFFFF", "#769ede"]}
         style={styles.background}
@@ -33,75 +91,67 @@ const ProposalDetailsComponent = ({
               left: 120,
               fontWeight: "bold",
               fontSize: 20,
-            }}
-          >
-            name
+            }}>
+            {freelancerName}
           </Text>
-          <Text style={{ position: "absolute", left: 120, top: 30 }}>{username}</Text>
         </View>
         <View style={{ flexDirection: "row", marginTop: 35 }}>
-          <FontAwesome name="id-card" size={24} color="black" />
+          <FontAwesome name='id-card' size={24} color='black' />
           <Text style={{ marginLeft: 22, fontSize: 16 }}>Expertise:</Text>
         </View>
-        <Text style={{ textAlign: "justify", paddingTop: 5 }}>
-          {expertise}
-        </Text>
-        <View style={{flexDirection:"row",marginTop:35}}>
-        <MaterialIcons name="watch-later" size={24} color="black" />
-        <Text style={{marginLeft:22,fontSize:16}}>Duration:</Text>
-        <Text style={{marginLeft:10,fontSize:16}}>{month} mon</Text>
-        <Text style={{fontSize:16}}>-{day} day</Text>
+        <Text style={{ textAlign: "justify", paddingTop: 5 }}>{expertise}</Text>
+        <View style={{ flexDirection: "row", marginTop: 35 }}>
+          <MaterialIcons name='watch-later' size={24} color='black' />
+          <Text style={{ marginLeft: 22, fontSize: 16 }}>Duration:</Text>
+          <Text style={{ marginLeft: 10, fontSize: 16 }}>{month} Months</Text>
+          <Text style={{ fontSize: 16 }}> & {day} Days</Text>
         </View>
-        <View style={{flexDirection:"row",marginTop:35}}>
-        <Entypo name="code" size={24} color="black" />
-        <Text style={{marginLeft:22,fontSize:16}}>Skills:</Text>
+        <View style={{ flexDirection: "row", marginTop: 35 }}>
+          <Entypo name='code' size={24} color='black' />
+          <Text style={{ marginLeft: 22, fontSize: 16 }}>Skills:</Text>
         </View>
-        <ScrollView horizontal={true} style={{marginTop:10}}>
-            {Skills.map((item) => {
-              return (
-                <LinearGradient
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  colors={["#428DFB", "#073270"]}
-                  style={styles.linearGradientbutton}
-                >
-                  <Text style={{ color: "white" }} key={item.tag}>
-                    {item.tag}
-                  </Text>
-                </LinearGradient>
-              );
-            })}
-          </ScrollView>
-          <View style={{flexDirection:"row",marginTop:35}}>
-          <FontAwesome5 name="coins" size={24} color="black" />
-        <Text style={{marginLeft:22,fontSize:16}}>Quotation:</Text>
-        <Text style={{marginLeft:10,fontSize:16}}>{budget}</Text>
+        <ScrollView horizontal={true} style={{ marginTop: 10 }}>
+          {freelancerSkills.map((item) => {
+            return (
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={["#428DFB", "#073270"]}
+                style={styles.linearGradientbutton}>
+                <Text style={{ color: "white" }} key={item._id}>
+                  {item.tagTitle}
+                </Text>
+              </LinearGradient>
+            );
+          })}
+        </ScrollView>
+        <View style={{ flexDirection: "row", marginTop: 35 }}>
+          <FontAwesome5 name='coins' size={24} color='black' />
+          <Text style={{ marginLeft: 22, fontSize: 16 }}>Quotation:</Text>
+          <Text style={{ marginLeft: 10, fontSize: 16 }}>{budget}</Text>
         </View>
-        <TouchableOpacity onPress={()=>{}}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={["#428DFB", "#073270"]}
-          style={styles.linearGradientText}
-        >
-          <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-             ASSIGN PROJECT
-          </Text>
-        </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{}}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          colors={["#428DFB", "#073270"]}
-          style={styles.linearGradientText}
-        >
-          <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-             MESSAGE FREELANCER
-          </Text>
-        </LinearGradient>
-        </TouchableOpacity>
-
+       {showButtons && ( <TouchableOpacity onPress={assignProjectToFreelancer}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#428DFB", "#073270"]}
+            style={styles.linearGradientText}>
+            <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+              ASSIGN PROJECT
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>)}
+        {showButtons&&(<TouchableOpacity>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#428DFB", "#073270"]}
+            style={styles.linearGradientText}>
+            <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+              MESSAGE FREELANCER
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>)}
       </View>
     </View>
   );
@@ -124,16 +174,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "500",
   },
-  linearGradientbutton:{
+  linearGradientbutton: {
     padding: 5,
     margin: 5,
     borderRadius: 10,
     marginLeft: 10,
   },
-  linearGradientText:{
+  linearGradientText: {
     marginTop: 30,
     width: 300,
     alignSelf: "center",
-    borderRadius: 22, 
-  }
+    borderRadius: 22,
+  },
 });
