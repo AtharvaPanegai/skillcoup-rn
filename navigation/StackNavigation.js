@@ -20,6 +20,12 @@ import EditProject from '../Screens/EditProject';
 import ProjectCompletedScreen from '../Screens/ProjectCompletedScreen';
 import ProjectAssignedScreen from '../Screens/ProjectAssignedScreen';
 import TotalProjectPostedScreen from '../Screens/TotalProjectPostedScreen';
+import AssignedScreen from '../Screens/AssignedScreen';
+import TotalProposalsScreeen from '../Screens/TotalProposalsScreeen';
+import AcceptedProposalsScreen from '../Screens/AcceptedProposalsScreen';
+import FreelancerTotalProjectsCompletedScreen from '../Screens/FreelancerTotalProjectsCompletedScreen';
+import ProposalSubmittedScreen from '../Screens/ProposalSubmittedScreen';
+import UserProfileScreen from '../Screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,12 +46,19 @@ const StackNavigation = () => {
         {/* <Stack.Screen name="CreateProject" component = {CreateProjectScreen} options={{headerShown:false}}/> */}
         <Stack.Screen name="SubmitProposal" component = {SubmitProposalScreen} options={{headerShown:false}}/>
         <Stack.Screen name="ProjectProposal" component = {ProjectProposalScreen} options={{headerShown:false}}/>
-        <Stack.Screen name="ProposalDetails" component = {ProposalDetails} options={{headerShown:false}}/>
+        <Stack.Screen name="ProposalDetails" component = {ProposalDetails} options={{headerShown:true,headerTransparent:true,headerTitle:""}}/>
         <Stack.Screen name="EditProject" component = {EditProject} options={{headerShown:false}}/>
         <Stack.Screen name="BottomTab" component={BottomTabNavigator}  options={{headerShown:false}}/>
-        <Stack.Screen name="ProjetCompleted" component={ProjectCompletedScreen} options={{headerShown:false}} />
-        <Stack.Screen name="ProjectAssigned" component={ProjectAssignedScreen} options={{headerShown:false}} />
-        <Stack.Screen name="ProjectPosted" component={TotalProjectPostedScreen} options={{headerShown:false}} />
+        <Stack.Screen name="ProjetCompleted" component={ProjectCompletedScreen} options={{headerTransparent:true}} />
+        <Stack.Screen name="ProjectAssigned" component={ProjectAssignedScreen} options={{headerTransparent:true}} />
+        <Stack.Screen name="ProjectPosted" component={TotalProjectPostedScreen} options={{headerTransparent:true}} />
+        <Stack.Screen name="Assigned" component={AssignedScreen} options={{headerTransparent:true}} />
+        <Stack.Screen name="TotalProposalsSubmiteed" component={TotalProposalsScreeen} />
+        <Stack.Screen name="AcceptedProposals" component={AcceptedProposalsScreen} />
+        <Stack.Screen name="FreelancerCompletedProjects" component={FreelancerTotalProjectsCompletedScreen} />
+        <Stack.Screen name="ProposalSubmittedScreen" component={ProposalSubmittedScreen} options={{headerTransparent:true}} />
+        <Stack.Screen name="EditProfile" component={UserProfileScreen} options={{headerTransparent:true}} />
+    
     </Stack.Navigator>
   )
 }

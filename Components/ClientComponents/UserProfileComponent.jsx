@@ -12,7 +12,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   AntDesign,
@@ -26,6 +26,8 @@ import {
 } from "@expo/vector-icons";
 import Skills from "../../Test/skills.json";
 import { Dropdown } from "react-native-element-dropdown";
+import axios from "axios";
+import { BASE_URL } from "../config";
 const UserProfileComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -35,6 +37,8 @@ const UserProfileComponent = () => {
   const [about, setAbout] = useState("");
   const [tag, setTag] = useState("");
   const [emp, setEmp] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [isFreelancer, setIsFreelancer] = useState(false);
 
   const data = [
     { label: "0-10", value: "1" },
@@ -44,6 +48,29 @@ const UserProfileComponent = () => {
     { label: "500+", value: "5" },
   ];
 
+  const whoami = () => {
+    axios
+      .get(`${BASE_URL}/whoami`)
+      .then((res) => {
+        console.log(res.data);
+        setFirstName(res.data.user.firstName);
+        setLastName(res.data.user.lastName);
+        setUserName(res.data.user.username);
+        setPhoneNumber(res.data.user.phoneNumber);
+        setEmail(res.data.user.emailId);
+        setSkills(res.data.user.skills);
+        res.data.user.userType == "freelancer"
+          ? setIsFreelancer(true)
+          : setIsFreelancer(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    whoami();
+  }, []);
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -60,7 +87,9 @@ const UserProfileComponent = () => {
                 borderRadius: 70,
                 alignSelf: "center",
               }}
-              source={require("../AuthComponents/clientlogo.png")}
+              source={{
+                uri: `https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=740&t=st=1670148608~exp=1670149208~hmac=bc57b66d67d2b9f4929c8e592ff17e8c8660721608add2f18fc20d19c1aab7e4`,
+              }}
             />
             <Entypo
               onPress={() => {}}
@@ -255,44 +284,51 @@ const UserProfileComponent = () => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.userInput}>Skills:</Text>
-          <ScrollView horizontal={true} style={{ marginHorizontal: 32 }}>
-            {Skills.map((item) => {
-              return (
-                <LinearGradient
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  colors={["#428DFB", "#073270"]}
-                  style={styles.linearGradientbutton}>
-                  <Text style={{ color: "white" }} key={item.tag}>
-                    {item.tag}
-                  </Text>
-                </LinearGradient>
-              );
-            })}
-          </ScrollView>
-          <Text style={styles.userInput}>Number Of Employees:</Text>
-          <View
-            style={{ flexDirection: "row", marginLeft: 20 }}
-            behavior='padding'>
-            <Ionicons
-              name='people'
-              size={24}
-              style={{ paddingRight: 10, top: 7 }}
-              color='black'
-            />
-            <Dropdown
-              style={styles.Dropdown}
-              data={data}
-              value={emp}
-              labelField='label'
-              iconStyle={styles.iconStyle}
-              onChange={(item) => {
-                setEmp(item.label);
-              }}
-              placeholder={emp}
-            />
-          </View>
+          {isFreelancer && (<Text style={styles.userInput}>Skills:</Text>)}
+          {isFreelancer && (
+            <ScrollView horizontal={true} style={{ marginHorizontal: 32 }}>
+              {skills.map((item) => {
+                return (
+                  <LinearGradient
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                    colors={["#428DFB", "#073270"]}
+                    style={styles.linearGradientbutton}>
+                    <Text style={{ color: "white" }} key={item.tagTitle}>
+                      {item.tagTitle}
+                    </Text>
+                  </LinearGradient>
+                );
+              })}
+              
+            </ScrollView>
+          )}
+          {!isFreelancer && (
+            <Text style={styles.userInput}>Number Of Employees:</Text>
+          )}
+          {!isFreelancer && (
+            <View
+              style={{ flexDirection: "row", marginLeft: 20 }}
+              behavior='padding'>
+              <Ionicons
+                name='people'
+                size={24}
+                style={{ paddingRight: 10, top: 7 }}
+                color='black'
+              />
+              <Dropdown
+                style={styles.Dropdown}
+                data={data}
+                value={emp}
+                labelField='label'
+                iconStyle={styles.iconStyle}
+                onChange={(item) => {
+                  setEmp(item.label);
+                }}
+                placeholder={emp}
+              />
+            </View>
+          )}
           <TouchableOpacity onPress={() => {}}>
             <LinearGradient
               start={{ x: 0, y: 0 }}

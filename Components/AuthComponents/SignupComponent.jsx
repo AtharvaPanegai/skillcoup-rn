@@ -1,3 +1,5 @@
+/** @format */
+
 import {
   ScrollView,
   StyleSheet,
@@ -23,6 +25,7 @@ import { StackActions, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { TouchableWithoutFeedback } from "react-native-web";
 import { BASE_URL } from "../config";
+
 const SignupComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -41,36 +44,71 @@ const SignupComponent = () => {
     lastName: lastName,
     username: username,
     phoneNumber: phoneNumber,
-    email: email,
+    emailId: email,
     password: password,
     userType: isEnabled ? "client" : "freelancer",
   };
 
+  const isEmailValid = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const isPassword = (password) =>{
+    return (password.length >=8);
+  }
+
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const registerFn = () => {
-    axios
-      .post(`${BASE_URL}/signup`, userData)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err.data);
-      });
+    if (isEmailValid(email)&&isPassword(password)) {
+      axios
+        .post(`${BASE_URL}/signup`, userData, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          navigation.replace("BottomTab", { Screen: "Home" });
+        })
+        .catch((err) => {
+          console.log(err.data);
+        });
+    }else{
+      console.error("Please Enter Valid email")
+    }
   };
 
   return (
     <LinearGradient colors={["#FFFFFF", "#D6E6FF"]} style={styles.container}>
       <KeyboardAvoidingScrollView>
-        <Text style={styles.text}>Register.Bid.Earn</Text>
+        {!isEnabled && (
+          <>
+            <Text style={styles.text}>Register.Bid.Earn</Text>
+            <Text style={styles.subText}>
+              Start Your Earning Journey Now with SkillCoup!
+            </Text>
+          </>
+        )}
+        {isEnabled && (
+          <>
+            <Text style={styles.text}>Register.Post.GetCompleted</Text>
+            <Text style={styles.subText}>
+              Let's Get Your projects completed with SkillCoup
+            </Text>
+          </>
+        )}
 
         <View style={{ alignSelf: "center", marginTop: 34 }}>
           <View>
             <Text style={styles.userText}>First Name</Text>
             <TextInput
-              
               style={styles.entryBox}
-              placeholder="sania "
-              type="firstName"
+              placeholder='sania '
+              type='text'
               value={firstName}
               onChangeText={(text) => setFirstName(text)}
             />
@@ -80,8 +118,8 @@ const SignupComponent = () => {
             <Text style={styles.userText}>Last Name</Text>
             <TextInput
               style={styles.entryBox}
-              placeholder="Forze"
-              type="lastName"
+              placeholder='Forze'
+              type='text'
               value={lastName}
               onChangeText={(text) => setLastName(text)}
             />
@@ -91,8 +129,8 @@ const SignupComponent = () => {
             <Text style={styles.userText}>Username</Text>
             <TextInput
               style={styles.entryBox}
-              placeholder="User2671"
-              type="username"
+              placeholder='User2671'
+              type='text'
               value={username}
               onChangeText={(text) => setUserName(text)}
             />
@@ -102,8 +140,8 @@ const SignupComponent = () => {
             <Text style={styles.userText}>PhoneNumber</Text>
             <TextInput
               style={styles.entryBox}
-              placeholder="+91789999"
-              type="phoneNumber"
+              placeholder='+91789999'
+              type='text'
               value={phoneNumber}
               onChangeText={(text) => setPhoneNumber(text)}
             />
@@ -113,8 +151,8 @@ const SignupComponent = () => {
             <Text style={styles.userText}>Email</Text>
             <TextInput
               style={styles.entryBox}
-              placeholder="xyz@abc.com"
-              type="email"
+              placeholder='xyz@abc.com'
+              type='text'
               value={email}
               onChangeText={(text) => setEmail(text)}
             />
@@ -124,8 +162,8 @@ const SignupComponent = () => {
             <Text style={styles.userText}>Password</Text>
             <View style={styles.inputContainer}>
               <TextInput
-                placeholder="*********"
-                type="password"
+                placeholder='*********'
+                type='password'
                 value={password}
                 onChangeText={(text) => setPassword(text)}
                 secureTextEntry={passwordVisibility}
@@ -135,7 +173,7 @@ const SignupComponent = () => {
                   style={{ marginLeft: 190, top: 5 }}
                   name={rightIcon}
                   size={18}
-                  color="#6B737A"
+                  color='#6B737A'
                 />
               </Pressable>
             </View>
@@ -146,7 +184,7 @@ const SignupComponent = () => {
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             thumbColor={isEnabled ? "#fff" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
+            ios_backgroundColor='#3e3e3e'
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
@@ -162,18 +200,17 @@ const SignupComponent = () => {
             I agree with the Terms & Conditions
           </Text>
         </View>
-        <TouchableOpacity
-            onPress={registerFn}>
-            <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              colors={["#428DFB", "#073270"]}
-              style={styles.linearGradientText}>
-              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-                sign up
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={registerFn}>
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            colors={["#428DFB", "#073270"]}
+            style={styles.linearGradientText}>
+            <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+              sign up
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
         <View style={{ flexDirection: "row", alignSelf: "center" }}>
           <Text style={{ color: "#072756", fontSize: 16, fontWeight: "bold" }}>
             Already member?
@@ -182,9 +219,7 @@ const SignupComponent = () => {
             style={{ fontSize: 16, color: "black", fontWeight: "bold" }}
             onPress={() => {
               navigation.navigate("Signin");
-            }}
-          >
-            {" "}
+            }}>
             Sign In
           </Text>
         </View>
@@ -237,8 +272,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 25,
     alignSelf: "center",
-
     fontWeight: "800",
+  },
+  subText: {
+    opacity: 0.4,
+    fontSize: 11,
+    alignSelf: "center",
   },
   icon: {
     marginLeft: 30,
@@ -327,11 +366,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  buttonContainer:{
-    paddingHorizontal:35,
-    paddingVertical:18,
-    backgroundColor:"blue",
-    marginHorizontal:30,
-    borderRadius:30
-  }
+  buttonContainer: {
+    paddingHorizontal: 35,
+    paddingVertical: 18,
+    backgroundColor: "blue",
+    marginHorizontal: 30,
+    borderRadius: 30,
+  },
 });

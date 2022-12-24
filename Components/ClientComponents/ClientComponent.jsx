@@ -135,7 +135,7 @@ const ClientComponent = ({ UserType = "Client" }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate("EditProfile")}}>
             <View style={styles.seperateContainer}>
               <Text style={styles.seperateText}>Edit Profile</Text>
               <AntDesign
@@ -146,7 +146,7 @@ const ClientComponent = ({ UserType = "Client" }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View style={styles.seperateContainer}>
               <Text style={styles.seperateText}>Complete Profile</Text>
               <AntDesign
@@ -156,7 +156,7 @@ const ClientComponent = ({ UserType = "Client" }) => {
                 color='black'
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </TouchableWithoutFeedback>
     </ScrollView>

@@ -29,6 +29,8 @@ const ProjectProposalComponent = () => {
     axios
       .post(`${BASE_URL}/job/proposals`, { jobIdInput: updatedJobPost._id })
       .then((res) => {
+        console.log("------------------");
+        console.log(res.data.jobs)
         setProposals(res.data.jobs);
       })
       .catch((err) => {
@@ -147,11 +149,12 @@ const ProjectProposalComponent = () => {
               onPress={() => {
                 navigation.navigate("ProposalDetails", {
                   freelancerId: item.freelancer,
-                  month: 3,
+                  month: item.jobTimeRequired.months,
                   budget: item.proposalQutation,
                   jobId: updatedJobPost._id,
-                  day: 3,
+                  day: item.jobTimeRequired.days,
                   expertise: item.proposalDescription,
+                  showButtons:true,
                 });
               }}>
               <View key={item.id} style={styles.proposalcontainer}>
@@ -165,7 +168,7 @@ const ProjectProposalComponent = () => {
                   Freelancer@{item.freelancer}
                 </Text>
                 <Text style={{ paddingLeft: 10, color: "grey", paddingTop: 2 }}>
-                  Duration : 3 months 3 days
+                  Duration : {item.jobTimeRequired.months} months {item.jobTimeRequired.days} days
                 </Text>
 
                 <Text style={{ paddingLeft: 10, paddingTop: 2, color: "grey" }}>
@@ -224,9 +227,11 @@ const styles = StyleSheet.create({
     borderRadius: 22,
   },
   proposalcontainer: {
-    marginHorizontal: 32,
-    marginVertical: 13,
+    marginHorizontal: 20,
+    marginVertical: 15,
+    paddingVertical:5,
     borderRadius: 10,
     backgroundColor: "#D9D9D9",
+    opacity: 0.4
   },
 });

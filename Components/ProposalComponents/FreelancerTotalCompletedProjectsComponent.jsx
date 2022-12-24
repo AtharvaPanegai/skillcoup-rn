@@ -1,30 +1,26 @@
 /** @format */
 
-import { StyleSheet, Text, View,ScrollView,TouchableOpacity } from "react-native";
-import React, { useState,useEffect } from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { useEffect } from "react";
 import Lottie from "lottie-react-native";
 import HomeScreenJobComponent from "../UtilityComponents/HomeScreenJobComponent";
-import { useNavigation } from "@react-navigation/native";
 
-const TotalProjectsPosted = () => {
-
-  const navigation = useNavigation();
-
+const FreelancerTotalCompletedProjectsComponent = () => {
   const [isZeroJobs, setIsZeroJobs] = useState(false);
   const [Jobs, setJobs] = useState([]);
-
-  const getTotalProjectPosted = () => {
+  const getCompletedProjects = () => {
     axios
-      .get(`${BASE_URL}/client/jobsPosted`)
+      .get(`${BASE_URL}/client/completedProjects`)
       .then((res) => {
         console.log(res.data);
-        if (!res.data.jobsPosted.length) {
+        if (!res.data.jobs.length) {
           setIsZeroJobs(true);
           console.log(isZeroJobs);
         }
-        setJobs(res.data.jobsPosted);
+        setJobs(res.data.jobs);
       })
       .catch((err) => {
         console.log(err);
@@ -32,16 +28,15 @@ const TotalProjectsPosted = () => {
   };
 
   useEffect(() => {
-    getTotalProjectPosted();
+    getCompletedProjects();
   }, []);
 
   return (
-    <ScrollView style={{}}>
-      {!isZeroJobs && (<View style={{marginTop:30}}>
-        {Jobs.map((item) => {
-          return (
-            <TouchableOpacity key={item.jobId}
-              onPress={() => {navigation.navigate("ProjectProposal",{updatedJobPost : item})}}>
+    <ScrollView style={{ marginBottom: 50 }}>
+      {!isZeroJobs && (
+        <View style={{ marginTop: 30 }}>
+          {Jobs.map((item) => {
+            return (
               <HomeScreenJobComponent
                 jobTitle={item.jobTitle}
                 jobDescription={item.jobDescription}
@@ -49,26 +44,28 @@ const TotalProjectsPosted = () => {
                 jobId={item._id}
                 jobTags={item.jobTags}
               />
-            </TouchableOpacity>
-          );
-        })}
-      </View>)}
+            );
+          })}
+        </View>
+      )}
       {isZeroJobs && (
-          <View>
-           <Lottie
-          style={styles.animation}
-          source={require("../../assets/empty.json")}
-          autoPlay
-          loop
-        />
-          <Text style={{alignSelf:"center",fontSize:20,color:"grey"}}>No Projects Posted</Text>
-          </View>
+        <View>
+          <Lottie
+            style={styles.animation}
+            source={require("../../assets/empty.json")}
+            autoPlay
+            loop
+          />
+          <Text style={{ alignSelf: "center", fontSize: 20, color: "grey" }}>
+            No Projects Completed
+          </Text>
+        </View>
       )}
     </ScrollView>
   );
 };
 
-export default TotalProjectsPosted;
+export default FreelancerTotalCompletedProjectsComponent;
 
 const styles = StyleSheet.create({
   container: {

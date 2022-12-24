@@ -39,19 +39,31 @@ const SigninComponent = () => {
     setInputType("text");
   };
 
+  const isEmailValid = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
   const handleSignin = () => {
-    axios
-      .post(`${BASE_URL}/signin`, userData)
-      .then((res) => {
-        setIsLoading(true);
-        console.log(res.data.user);
-        navigation.replace("BottomTab", { screen: "Home" });
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Invalid Credentials!");
-      });
+    if (isEmailValid(email)) {
+      axios
+        .post(`${BASE_URL}/signin`, userData)
+        .then((res) => {
+          setIsLoading(true);
+          console.log(res.data.user);
+          navigation.replace("BottomTab", { screen: "Home" });
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Invalid Credentials!");
+        });
+    }else{
+      console.error("Please Enter Valid Email")
+    }
   };
 
   return (

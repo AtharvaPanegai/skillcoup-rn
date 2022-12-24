@@ -103,10 +103,7 @@ const SubmitProposalComponent = () => {
     axios
       .post(`${BASE_URL}/freelancer/submitproposal`, proposalData)
       .then((res) => {
-        navigation.navigate("ProjectProposal", {
-          updatedJobPost: res.data.updatedJobPost,
-          jobBid: res.data.jobBid,
-        });
+        navigation.navigate("ProposalSubmittedScreen");
       })
       .catch((err) => {
         console.log(err);

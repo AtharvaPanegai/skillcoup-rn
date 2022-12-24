@@ -21,8 +21,8 @@ const HomeComponent = () => {
   // const jobTagsArray = Jobs.jobTags.tagTitle;
   const [isZeroJobs, setIsZeroJobs] = useState(false);
   const [Jobs, setJobs] = useState([]);
-
-  useEffect(() => {
+  const [userType, setUserType] = useState("");
+  const getAllJobs = () => {
     axios
       .get(`${BASE_URL}/freelancer/getAllJobs`)
       .then((res) => {
@@ -36,48 +36,58 @@ const HomeComponent = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
+  
+
+  useEffect(() => {
+    getAllJobs();
+  }, []);
 
   const navigation = useNavigation();
 
   return (
     <ScrollView style={{}}>
-      {!isZeroJobs && (<View style={{marginTop:30}}>
-        {Jobs.map((item) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("ProjectDetails", {
-                  jobTitle: item.jobTitle,
-                  jobDescription: item.jobDescription,
-                  jobBudget: item.jobBudget,
-                  jobId: item._id,
-                  jobTags:item.jobTags,
-                  ClientId : item.Client
-                });
-              }}>
-              <HomeScreenJobComponent
-                jobTitle={item.jobTitle}
-                jobDescription={item.jobDescription}
-                jobBudget={item.jobBudget}
-                jobId={item._id}
-                jobTags={item.jobTags}
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </View>)}
+      {!isZeroJobs && (
+        <View style={{ marginTop: 30 }}>
+          <Text>Jobs For you</Text>
+          {Jobs.map((item) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("ProjectDetails", {
+                    jobTitle: item.jobTitle,
+                    jobDescription: item.jobDescription,
+                    jobBudget: item.jobBudget,
+                    jobId: item._id,
+                    jobTags: item.jobTags,
+                    ClientId: item.Client,
+                  });
+                }}>
+                <HomeScreenJobComponent
+                  jobTitle={item.jobTitle}
+                  jobDescription={item.jobDescription}
+                  jobBudget={item.jobBudget}
+                  jobId={item._id}
+                  jobTags={item.jobTags}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      )}
       {isZeroJobs && (
-          <View>
-           <Lottie
-          style={styles.animation}
-          source={require("../../assets/empty.json")}
-          autoPlay
-          loop
-        />
-          <Text style={{alignSelf:"center",fontSize:20,color:"grey"}}>No Projects Available</Text>
-          </View>
+        <View>
+          <Lottie
+            style={styles.animation}
+            source={require("../../assets/empty.json")}
+            autoPlay
+            loop
+          />
+          <Text style={{ alignSelf: "center", fontSize: 20, color: "grey" }}>
+            No Projects Available
+          </Text>
+        </View>
       )}
     </ScrollView>
   );
@@ -121,13 +131,11 @@ const styles = StyleSheet.create({
   toggleText: {
     color: "#3742fa",
   },
-  animation:{
-    
-    marginVertical:160,
-    alignSelf: 'center',
-    height:200,
-    width:200,
-    alignContent:"center"
-  }
-
+  animation: {
+    marginVertical: 160,
+    alignSelf: "center",
+    height: 200,
+    width: 200,
+    alignContent: "center",
+  },
 });

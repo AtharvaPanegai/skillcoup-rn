@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ToastAndroid
 } from "react-native";
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,13 +19,14 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import Skills from "../../Test/skills.json";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
 import { BASE_URL } from "../config";
 
 const ProposalDetailsComponent = () => {
+  const navigation = useNavigation();
   const [showFull, setShowFull] = useState(false);
-  const { jobId, month, day, freelancerId, expertise, budget } =
+  const { jobId, month, day, freelancerId, expertise, budget,showButtons } =
     useRoute().params;
   const [freelancerName, setFreelancerName] = useState("");
   const [freelancerSkills, setFreelancerSkills] = useState([]);
@@ -54,6 +56,12 @@ const ProposalDetailsComponent = () => {
       .post(`${BASE_URL}/client/assignJob`, assignProjData)
       .then((res) => {
         console.log(res.data);
+        ToastAndroid.showWithGravity(
+          "Project Assigned!",
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+        navigation.navigate("Home");
       })
       .catch((err) => {
         console.log(err);
@@ -95,8 +103,8 @@ const ProposalDetailsComponent = () => {
         <View style={{ flexDirection: "row", marginTop: 35 }}>
           <MaterialIcons name='watch-later' size={24} color='black' />
           <Text style={{ marginLeft: 22, fontSize: 16 }}>Duration:</Text>
-          <Text style={{ marginLeft: 10, fontSize: 16 }}>{month} mon</Text>
-          <Text style={{ fontSize: 16 }}>-{day} day</Text>
+          <Text style={{ marginLeft: 10, fontSize: 16 }}>{month} Months</Text>
+          <Text style={{ fontSize: 16 }}> & {day} Days</Text>
         </View>
         <View style={{ flexDirection: "row", marginTop: 35 }}>
           <Entypo name='code' size={24} color='black' />
@@ -122,7 +130,7 @@ const ProposalDetailsComponent = () => {
           <Text style={{ marginLeft: 22, fontSize: 16 }}>Quotation:</Text>
           <Text style={{ marginLeft: 10, fontSize: 16 }}>{budget}</Text>
         </View>
-        <TouchableOpacity onPress={assignProjectToFreelancer}>
+       {showButtons && ( <TouchableOpacity onPress={assignProjectToFreelancer}>
           <LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -132,8 +140,8 @@ const ProposalDetailsComponent = () => {
               ASSIGN PROJECT
             </Text>
           </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity>
+        </TouchableOpacity>)}
+        {showButtons&&(<TouchableOpacity>
           <LinearGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -143,7 +151,7 @@ const ProposalDetailsComponent = () => {
               MESSAGE FREELANCER
             </Text>
           </LinearGradient>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
     </View>
   );

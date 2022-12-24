@@ -16,11 +16,12 @@ import axios from "axios";
 import { BASE_URL } from "../config";
 import { Dropdown } from "react-native-element-dropdown";
 const CreateProjectComponent = () => {
+  
   const [jobTitle, setJobTitle] = useState("");
   const [jobTags, setJobTags] = useState([]);
   const [jobCategory, setJobCategory] = useState("");
   const [jobDescription, setJobDescription] = useState("");
-  const [jobBudget, setJobBudget] = useState(null);
+  const [jobBudget, setJobBudget] = useState(0);
   const [fileResponse, setFileResponse] = useState([]);
 
   const data = [
@@ -56,25 +57,13 @@ const CreateProjectComponent = () => {
 
   const postProject = () => {
     axios
-      .post(`${BASE_URL}/client/postjob`, {
-        jobTitle: jobTitle,
-        jobCategory: jobCategory,
-        jobBudget: jobBudget,
-        jobTags: [
-          {
-            tagTitle: "React",
-          },
-          {
-            tagTitle: "JavaScript",
-          },
-        ],
-        jobDescription: jobDescription
-      })
+      .post(`${BASE_URL}/client/postjob`, projData)
       .then((res) => {
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
+        console.log(projData);
       });
 
     // console.log(projData)
