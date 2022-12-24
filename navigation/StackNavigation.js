@@ -26,6 +26,7 @@ import AcceptedProposalsScreen from '../Screens/AcceptedProposalsScreen';
 import FreelancerTotalProjectsCompletedScreen from '../Screens/FreelancerTotalProjectsCompletedScreen';
 import ProposalSubmittedScreen from '../Screens/ProposalSubmittedScreen';
 import UserProfileScreen from '../Screens/UserProfileScreen';
+import MessageListScreen from '../Screens/MessageListScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +59,7 @@ const StackNavigation = () => {
         <Stack.Screen name="FreelancerCompletedProjects" component={FreelancerTotalProjectsCompletedScreen} />
         <Stack.Screen name="ProposalSubmittedScreen" component={ProposalSubmittedScreen} options={{headerTransparent:true}} />
         <Stack.Screen name="EditProfile" component={UserProfileScreen} options={{headerTransparent:true}} />
-    
+        <Stack.Screen name="MessageListChatScreen" component={MessageListScreen} options={{headerTransparent:true}} />
     </Stack.Navigator>
   )
 }
