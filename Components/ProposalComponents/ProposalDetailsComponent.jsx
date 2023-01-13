@@ -7,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
 import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,15 +21,35 @@ import {
 import Skills from "../../Test/skills.json";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL, PAYMENT_BASE_URL } from "../config";
+import RazorpayCheckout from "react-native-razorpay";
+import { useStripe } from "@stripe/stripe-react-native";
+import { Alert } from "react-native";
 
 const ProposalDetailsComponent = () => {
   const navigation = useNavigation();
   const [showFull, setShowFull] = useState(false);
-  const { jobId, month, day, freelancerId, expertise, budget,showButtons } =
+  const { jobId, month, day, freelancerId, expertise, budget, showButtons } =
     useRoute().params;
   const [freelancerName, setFreelancerName] = useState("");
   const [freelancerSkills, setFreelancerSkills] = useState([]);
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhoneNumber, setClientPhoneNumber] = useState("");
+  const [clientName, setClientName] = useState("");
+
+  const whoami = () => {
+    axios
+      .get(`${BASE_URL}/whoami`)
+      .then((res) => {
+        setClientEmail(res.data.user.emailId);
+        setClientName(res.data.user.firstName + " " + res.data.user.lastName);
+        setClientPhoneNumber(res.data.user.phoneNumber);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getUserById = () => {
     axios
@@ -50,8 +70,10 @@ const ProposalDetailsComponent = () => {
     freelancerId: freelancerId,
   };
 
+  // const navigation = useNavigation();
   const assignProjectToFreelancer = () => {
-    console.log("assign proj triggered")
+
+    console.log("assign proj triggered");
     axios
       .post(`${BASE_URL}/client/assignJob`, assignProjData)
       .then((res) => {
@@ -68,9 +90,117 @@ const ProposalDetailsComponent = () => {
       });
   };
 
+  const handleMessageFreelancer = () => {
+    axios
+      .post(`${BASE_URL}/createConversation`, { receiverId: freelancerId })
+      .then((res) => {
+        console.log(res.data);
+        navigation.navigate("Chat", { conversation: res.data.conversation });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const [amount, setAmount] = useState(0);
+  const [id, setId] = useState("");
+
+  const createOrder = () => {
+    axios
+      .post(`${BASE_URL}/payment/createorder`, { amount: budget })
+      .then((res) => {
+        console.log(res.data);
+        setAmount(res.data.amount);
+        setId(res.data.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getUserById();
+    whoami();
+    // createOrder();
   }, []);
+
+  async function displayRazorpay() {
+    try {
+      var options = {
+        description: "Credits towards consultation",
+        image: "https://i.imgur.com/3g7nmJC.jpg",
+        currency: "INR",
+        key: "rzp_test_urPAIvOKSc73Gh",
+        amount: amount.toString(),
+        name: "SkillCoup Corp",
+        order_id: { id }, //Replace this with an order_id created using Orders API.
+        prefill: {
+          email: "gaurav.kumar@example.com",
+          contact: "9191919191",
+          name: "Gaurav Kumar",
+        },
+        theme: { color: "#53a20e" },
+      };
+      RazorpayCheckout.open(options)
+        .then((data) => {
+          // handle success
+          alert(`Success: ${data.razorpay_payment_id}`);
+        })
+        .catch((error) => {
+          // handle failure
+          alert(`Error: ${error.code} | ${error.description}`);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const stripe = useStripe();
+
+  const buy = async () => {
+    try {
+      const finalAmount = parseInt(budget);
+      const response = await axios.post(`${PAYMENT_BASE_URL}/buy`, {
+        amount: finalAmount,
+        email: clientEmail,
+      });
+
+      const data = response.data;
+      console.log(response.data);
+      if (!response.ok) {
+        ToastAndroid.showWithGravity(
+          data.message,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER
+        );
+      }
+      console.log("reached here 1");
+      const initSheet = await stripe.initPaymentSheet({
+        paymentIntentClientSecret: data.clientSecret,
+        merchantDisplayName: "SkillCoup LLP",
+      });
+      if (initSheet.error) {
+        console.error(initSheet.error);
+        //  console.alert(initSheet.error.message);
+      }
+      console.log("reached here2");
+      const presentSheet = await stripe.presentPaymentSheet({
+        clientSecret: data.clientSecret,
+      });
+      if (presentSheet.error) {
+        console.log("present sheet error")
+        console.error(presentSheet.error);
+        // return console.alert(presentSheet.error.message);
+      }
+      // Alert("Payment successfully! Thank you for the purchase.");
+      console.log("Payment Succeded");
+      assignProjectToFreelancer();
+
+    } catch (err) {
+      console.log("catch error called")
+      console.error(err);
+      // Alert.alert("Payment failed!");
+    }
+  };
 
   return (
     <View key={jobId} style={styles.container}>
@@ -130,28 +260,32 @@ const ProposalDetailsComponent = () => {
           <Text style={{ marginLeft: 22, fontSize: 16 }}>Quotation:</Text>
           <Text style={{ marginLeft: 10, fontSize: 16 }}>{budget}</Text>
         </View>
-       {showButtons && ( <TouchableOpacity onPress={assignProjectToFreelancer}>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#428DFB", "#073270"]}
-            style={styles.linearGradientText}>
-            <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-              ASSIGN PROJECT
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>)}
-        {showButtons&&(<TouchableOpacity>
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            colors={["#428DFB", "#073270"]}
-            style={styles.linearGradientText}>
-            <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
-              MESSAGE FREELANCER
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>)}
+        {showButtons && (
+          <TouchableOpacity onPress={buy}>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={["#428DFB", "#073270"]}
+              style={styles.linearGradientText}>
+              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+                ASSIGN PROJECT
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
+        {showButtons && (
+          <TouchableOpacity onPress={handleMessageFreelancer}>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={["#428DFB", "#073270"]}
+              style={styles.linearGradientText}>
+              <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
+                MESSAGE FREELANCER
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

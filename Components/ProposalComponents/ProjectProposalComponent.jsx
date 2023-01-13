@@ -22,6 +22,7 @@ const ProjectProposalComponent = () => {
   const route = useRoute();
   const [proposals, setProposals] = useState([]);
   const [clientName, setClientName] = useState("");
+  const [clientUsername, setClientUsername] = useState("");
 
   const { jobBid, updatedJobPost } = route.params;
 
@@ -46,6 +47,7 @@ const ProjectProposalComponent = () => {
       .then((res) => {
         console.log(res.data);
         setClientName(`${res.data.user.firstName} ${res.data.user.lastName}`)
+        setClientUsername(res.data.user.username)
       })
       .catch((err) => {
         console.log(err);
@@ -85,7 +87,7 @@ const ProjectProposalComponent = () => {
         <Text style={styles.headerText}>{updatedJobPost.jobTitle}</Text>
 
         <View style={{ flexDirection: "row-reverse", paddingLeft: 20 }}>
-          <Text>{clientName}</Text>
+        <Text onPress={()=>{navigation.navigate("ShowCase",{name:clientName,username:clientUsername})}}>{clientName}</Text>
           <Text
             style={{
               color: "#818589",

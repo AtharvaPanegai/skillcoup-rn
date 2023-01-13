@@ -10,8 +10,12 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome5, Ionicons, FontAwesome } from "@expo/vector-icons";
 import Skills from "../../Test/skills.json";
+import { useRoute } from "@react-navigation/native";
 
 const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
+
+  const {name,username} = useRoute().params;
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -31,12 +35,12 @@ const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
             fontWeight: "800",
           }}
         >
-          Freelancer Name
+          {name}
         </Text>
         <Text style={{ alignSelf: "center", paddingTop: 10, color: "grey" }}>
-          UserName
+          {username}
         </Text>
-        <Text
+        {/* <Text
           style={{
             alignSelf: "center",
             paddingVertical: 30,
@@ -46,7 +50,7 @@ const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
           }}
         >
           React and React Native Developer|Javascript|Cross platform Developer.
-        </Text>
+        </Text> */}
         <View>
           <FontAwesome5 name="address-card" size={24} color="black" />
           {UserType == "Client" && <Text style={styles.infoType}>About:</Text>}
@@ -61,8 +65,7 @@ const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
               fontSize: 16,
             }}
           >
-            I am Passinate about complex real life problems and implementing
-            frontend designs(UI) into code. My goal is to get a descent job.
+            I Help people to digitize their business through my digital agency which helps them in developing websites and mobile applications to make their app 
           </Text>
         </View>
         {UserType == "Freelancer" && (
@@ -78,7 +81,7 @@ const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
                 marginLeft: 50,
               }}
             >
-              500-1000
+              50-100
             </Text>
           </View>
         )}
@@ -116,11 +119,11 @@ const ShowCaseComponent = ({ UserType = "Freelancer" }) => {
                 Message Freelancer
               </Text>
             )}
-            {UserType == "Freelancer" && (
+            {/* {UserType == "Freelancer" && (
               <Text style={{ color: "#fff", alignSelf: "center", padding: 13 }}>
                 Message Client
               </Text>
-            )}
+            )} */}
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
