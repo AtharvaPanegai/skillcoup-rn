@@ -9,11 +9,80 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
-import { Feather } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { Feather } from "@expo/vector-icons";
 import MessageComponent from "./MessageComponent";
+import { useRoute } from "@react-navigation/native";
+import axios from "axios";
+import { BASE_URL } from "../config";
 const ChatComponent = () => {
   const [chat, setChat] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [mem1, setMem1] = useState("");
+  const [mem2, setMem2] = useState("");
+  const { conversation } = useRoute().params;
+
+  const getMessagesofConversation = () => {
+    axios
+      .post(`${BASE_URL}/getMessageofConv`, {
+        conversationIdInput: conversation._id,
+      })
+      .then((res) => {
+        setMessages(res.data.messages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getMember1ofConv = () => {
+    axios
+      .post(`${BASE_URL}/getUserDetails`, {
+        userIdInput: conversation.senderId,
+      })
+      .then((res) => {
+        setMem1(res.data.user.firstName+" " + res.data.user.lastName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getMember2ofConv = () => {
+    axios
+      .post(`${BASE_URL}/getUserDetails`, {
+        userIdInput: conversation.receiverId,
+      })
+      .then((res) => {
+        setMem2(res.data.user.firstName+ " " + res.data.user.lastName);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  
+
+  const handleSendMessage = () => {
+    axios
+      .post(`${BASE_URL}/createMessage`, {
+        conversationId: conversation._id,
+        text: chat,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setChat("");
+  };
+
+  useEffect(() => {
+    getMessagesofConversation();
+    getMember1ofConv();
+    getMember2ofConv();
+  }, []);
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior='padding'>
       <View
@@ -32,22 +101,15 @@ const ChatComponent = () => {
             justifyContent: "center",
             alignSelf: "flex-end",
           }}>
-          <Text style={styles.userText}>Martina Wolna</Text>
-          <Text style={styles.userText}>Maciej Kowalski</Text>
+          <Text style={styles.userText}>{mem1}</Text>
+          <Text style={styles.userText}>{mem2}</Text>
         </View>
       </View>
       <View style={{ marginTop: 35, height: "70%", marginHorizontal: 35 }}>
         <ScrollView>
-          <MessageComponent messageText={"Hey Wanted to get in touch with you regarding the project where you submitted proposal"} isSendMessage = {true} />
-          <MessageComponent messageText={"Sure"} isSendMessage = {false} />
-          <MessageComponent messageText={"Can you tell me more about your requirements"} isSendMessage = {false} />
-          <MessageComponent messageText={"So that I would be able to understand better"} isSendMessage = {false} />
-          <MessageComponent messageText={"Sure"} isSendMessage = {true} />
-          <MessageComponent messageText={"So this project is about developing a website"} isSendMessage = {true} />
-          <MessageComponent messageText={"A Portfolio website"} isSendMessage = {true} />
-          <MessageComponent messageText={"That's great I've expertise in developing websites "} isSendMessage = {false} />
-          <MessageComponent messageText={"This is send message"} isSendMessage = {true} />
-          <MessageComponent messageText={"This is recevive message"} isSendMessage = {false} />
+          {messages.map((item, i) => {
+            return <MessageComponent key={i} message={item} />;
+          })}
         </ScrollView>
       </View>
       <View style={{ flexDirection: "row", marginLeft: 35, paddingTop: 20 }}>
@@ -58,8 +120,15 @@ const ChatComponent = () => {
           type='chat'
           value={chat}
           onChangeText={(text) => setChat(text)}
+          onSubmitEditing={handleSendMessage}
         />
-        <Feather style = {styles.sendButton} name="send" size={36} color="white" />
+        <Feather
+          onPress={handleSendMessage}
+          style={styles.sendButton}
+          name='send'
+          size={36}
+          color='white'
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -91,11 +160,11 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     borderRadius: 10,
     color: "#fff",
-    borderWidth : 0.2,
-    borderColor:"#fff"
+    borderWidth: 0.2,
+    borderColor: "#fff",
   },
-  sendButton : {
-    paddingLeft : 10,
-    marginTop:5,
-  }
+  sendButton: {
+    paddingLeft: 10,
+    marginTop: 5,
+  },
 });

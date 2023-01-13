@@ -1,11 +1,62 @@
 /** @format */
 
-import { StyleSheet, Text, View,Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../config";
+import { useEffect } from "react";
 
-const IndividiualMessageComponent = ({freelancerName}) => {
+const IndividiualMessageComponent = ({ conversation }) => {
+  const [secondUser, setSecondUser] = useState({});
+  const [isFreelancer, setIsFreelancer] = useState(false);
+
+  const getUsernameFromConversation = () => {
+    axios
+      .get(`${BASE_URL}/whoami`)
+      .then((res) => {
+        res.data.user.userType == "freelancer"
+          ? setIsFreelancer(true)
+          : setIsFreelancer(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    if (isFreelancer) {
+      axios
+        .post(`${BASE_URL}/getUserDetails`, {
+          userIdInput: conversation.senderId,
+        })
+        .then((res) => {
+          setSecondUser(res.data.user);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } 
+    if(!isFreelancer) {
+      axios
+        .post(`${BASE_URL}/getUserDetails`, {
+          userIdInput: conversation.receiverId,
+        })
+        .then((res) => {
+          setSecondUser(res.data.user);
+  
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getUsernameFromConversation();
+  }, []);
+
   return (
-    <View style= {styles.mainContainer}>
+    <View style={styles.mainContainer}>
       <View>
         <Image
           style={styles.image}
@@ -14,8 +65,10 @@ const IndividiualMessageComponent = ({freelancerName}) => {
           }}
         />
       </View>
-      <View style = {styles.messageNameContainer}>
-        <Text>{freelancerName} </Text>
+      <View style={styles.messageNameContainer}>
+        <Text>
+          {secondUser.firstName} {secondUser.lastName}{" "}
+        </Text>
       </View>
     </View>
   );
@@ -24,26 +77,26 @@ const IndividiualMessageComponent = ({freelancerName}) => {
 export default IndividiualMessageComponent;
 
 const styles = StyleSheet.create({
-    image: {
-        height: 50,
-        width: 50,
-        borderRadius: 50,
-        borderWidth: 1,
-        marginBottom: 10,
-        marginHorizontal : 10,
-      },
-      mainContainer:{
-        paddingVertical : 10,
-        flexDirection : "row",
-        borderWidth : 0.2,
-        borderRadius : 10,
-        marginVertical : 10,
-marginHorizontal : 10,
-      },
-      messageNameContainer : {
-        paddingLeft : 10,
-        // alignItems : "center"
-        justifyContent:"center",
-        marginBottom : 5,
-      }
+  image: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    borderWidth: 1,
+    marginBottom: 10,
+    marginHorizontal: 10,
+  },
+  mainContainer: {
+    paddingVertical: 10,
+    flexDirection: "row",
+    borderWidth: 0.2,
+    borderRadius: 10,
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  messageNameContainer: {
+    paddingLeft: 10,
+    // alignItems : "center"
+    justifyContent: "center",
+    marginBottom: 5,
+  },
 });

@@ -22,6 +22,7 @@ const ProjectDetailsComponent = () => {
   const route = useRoute();
 
   const [username, setUsername] = useState("");
+  const [clientName, setClientName] = useState("");
 
   const { jobTitle, jobDescription, jobBudget, jobId, jobTags, ClientId } =
     route.params;
@@ -37,6 +38,7 @@ const ProjectDetailsComponent = () => {
       .then((res) => {
         console.log(res.data);
         setUsername(res.data.user.username);
+        setClientName(`${res.data.user.firstName} ${res.data.user.lastName}`);
       })
       .catch((err) => {
         console.log(err);
@@ -94,7 +96,7 @@ const ProjectDetailsComponent = () => {
               style={{ height: 30, width: 30, borderRadius: 50 }}
               source={require("../AuthComponents/clientlogo.png")}
             /> */}
-            <Text>{username}</Text>
+            <Text onPress={()=>{navigation.navigate("ShowCase",{name:clientName,username:username})}}>{username}</Text>
             <Text
               style={{
                 color: "#818589",
@@ -152,7 +154,7 @@ const ProjectDetailsComponent = () => {
               <Text style={{ color: "#818589" }}>3 months</Text>
             </View>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               navigation.navigate("Chat");
             }}>
@@ -165,7 +167,7 @@ const ProjectDetailsComponent = () => {
                 Message Client
               </Text>
             </LinearGradient>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("SubmitProposal",{jobId:jobId});

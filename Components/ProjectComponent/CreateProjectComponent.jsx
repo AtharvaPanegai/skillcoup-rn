@@ -15,6 +15,7 @@ import * as DocumentPicker from "expo-document-picker";
 import axios from "axios";
 import { BASE_URL } from "../config";
 import { Dropdown } from "react-native-element-dropdown";
+import { useNavigation } from "@react-navigation/native";
 const CreateProjectComponent = () => {
   
   const [jobTitle, setJobTitle] = useState("");
@@ -22,7 +23,8 @@ const CreateProjectComponent = () => {
   const [jobCategory, setJobCategory] = useState("");
   const [jobDescription, setJobDescription] = useState("");
   const [jobBudget, setJobBudget] = useState(0);
-  const [fileResponse, setFileResponse] = useState([]);
+
+  const navigation=useNavigation();
 
   const data = [
     { label: "software", value: "1" },
@@ -40,33 +42,42 @@ const CreateProjectComponent = () => {
 
   // post request to backend
 
-  const projData = {
-    jobTitle: jobTitle,
-    jobCategory: jobCategory,
-    jobBudget: jobBudget,
-    jobTags: [
-      {
-        tagTitle: "React",
-      },
-      {
-        tagTitle: "JavaScript",
-      },
-    ],
-    jobDescription: jobDescription
-  };
+ 
 
   const postProject = () => {
+
+
+    const projData={
+      jobTitle: jobTitle,
+        jobTags: [
+        {
+          tagTitle: "React",
+        },
+        {
+          tagTitle: "JavaScript",
+        },
+      ],
+      jobCategory: jobCategory,
+      jobDescription: jobDescription,
+      jobBudget: jobBudget,
+    }
+
+    console.log(projData);
+
     axios
       .post(`${BASE_URL}/client/postjob`, projData)
       .then((res) => {
-        console.log(res.data);
+        
+        console.log(projData);
+        navigation.replace("BottomTab", { Screen: "Home" });
+        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
         console.log(projData);
       });
 
-    // console.log(projData)
+
   };
 
   return (
@@ -83,16 +94,22 @@ const CreateProjectComponent = () => {
           placeholder='Enter Text Here'
           type='text'
           value={jobTitle}
-          onChangeText={(text) => setJobTitle(text)}
+          onChange={(e) => setJobTitle(e.nativeEvent.text)}
         />
+
+
+
+
         <Text style={styles.iptext}>Job Tags:</Text>
         <TextInput
           style={styles.input}
           placeholder='Enter Text Here'
           type='text'
           value={jobTags}
-          onChangeText={(text) => setJobTags([...jobTags, text])}
+          
         />
+
+
         <Text style={styles.iptext}>Job Category:</Text>
         <Dropdown
           style={styles.Dropdown}
@@ -104,7 +121,11 @@ const CreateProjectComponent = () => {
           }}
           placeholder={jobCategory}
         />
+
+
         <Text style={styles.iptext}>Job Description:</Text>
+
+
         <TextInput
           multiline
           maxLength={250}
@@ -112,16 +133,21 @@ const CreateProjectComponent = () => {
           placeholder='Enter Text Here'
           type='text'
           value={jobDescription}
-          onChangeText={(text) => setJobDescription(text)}
+          onChange={(e) => setJobDescription(e.nativeEvent.text)}
         />
+
         <Text style={styles.iptext}>Job Budget:</Text>
         <TextInput
           style={styles.input}
           placeholder='Enter Budget for Job'
-          type="number"
+          keyboardType="numeric"
           value={jobBudget}
-          onChange = {(number)=>setJobBudget(number)}
+          onChange = {(e)=>setJobBudget(e.nativeEvent.text)}
         />
+
+
+
+
         <View style={{ flexDirection: "row", marginTop: 64 }}>
           {/* <AntDesign style={{paddingVertical:16}} name="upload" size={26} color="black" /> */}
           {/* <TouchableOpacity onPress={_pickDocument}>
